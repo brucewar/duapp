@@ -1,14 +1,14 @@
 {
-    "name": "MyPage",
-    "version": "0.0.1",
-    "author": "brucewar",
-    "description": "This is my personal page deployed in BAE.",
-    "scripts": {
-        "start": "node app.js"
-    },
-    "dependencies": {
-	"express": "*",
-	"mongoose": "*"
-    }
+  "name": "MyPage",
+  "version": "0.0.1",
+  "author": "brucewar",
+  "description": "This is my personal page deployed in BAE.",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "*",
+    "mongoose": "*",
+    "ejs": "~1.0.0"
+  }
 }
-
