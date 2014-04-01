@@ -1,4 +1,4 @@
-function initGame() {
+(function () {
     var d = document;
     var container = document.getElementById('gameContainer');
     var winWidth, winHeight;
@@ -84,4 +84,4 @@ function initGame() {
         d.body.appendChild(s);
         //else if single file specified, load singlefile
     });
-}
+})();
