@@ -388,7 +388,7 @@ var GameLayer = cc.Layer.extend({
           for (var j = connected[i].x; j > 0; j--) {
             if (this.sprites[j - 1][y] == null) break;
             var moveDown = cc.MoveTo.create(time, cc.p(this.sprites[j - 1][y].getPosition().x,
-              this.sprites[j - 1][y].getPosition().y - this.stoneWidth - blank));
+                this.sprites[j - 1][y].getPosition().y - this.stoneWidth - blank));
             this.sprites[j - 1][y].runAction(moveDown);
             time += 0.1;
           }
@@ -436,7 +436,7 @@ var GameLayer = cc.Layer.extend({
     this.connectedBack = [];
     for (var i = 0; i < this.connected.length; i++) {
       bgSprite = cc.LayerColor.create(cc.c4b(255, 255, 255, 100), this.stoneWidth + blank,
-        this.stoneWidth + blank);
+          this.stoneWidth + blank);
       var position = this.sprites[this.connected[i].x][this.connected[i].y].getPosition();
       bgSprite.setPosition(cc.p(position.x - blank / 2, position.y - blank / 2));
       bgSprite.setAnchorPoint(0, 0);
@@ -480,11 +480,11 @@ var GameLayer = cc.Layer.extend({
           }
           var nextLblLevel = cc.LabelTTF.create("LEVEL " + this.level, FONT_TYPE, 20);
           nextLblLevel.setPosition(cc.p(size.width + nextLblLevel.getContentSize().width / 2,
-            size.height / 2 + 20));
+              size.height / 2 + 20));
           nextLblLevel.setColor(cc.c3b(255, 255, 255));
           var nextLblScore = cc.LabelTTF.create("目标分：" + this.requireScore);
           nextLblScore.setPosition(cc.p(size.width + nextLblScore.getContentSize().width / 2,
-            size.height / 2));
+              size.height / 2));
           nextLblScore.setColor(cc.c3b(255, 255, 255));
 
           this.addChild(nextLblLevel);
@@ -614,7 +614,7 @@ var GameLayer = cc.Layer.extend({
     this.scoreText.setColor(cc.c4b(200, 200, 200, 252));
     this.resultLayer.addChild(this.scoreText);
     this.scoreText.setPosition(cc.p(size.width / 2,
-      this.resultText.getPosition().y - 30));
+        this.resultText.getPosition().y - 30));
   }
 });
 
