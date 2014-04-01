@@ -1,12 +1,14 @@
 {
-    "name": "bae-nodejs",
-    "version": "1.0.0",
-    "author": "bae",
-    "description": "The first bae nodejs app!",
+    "name": "MyPage",
+    "version": "0.0.1",
+    "author": "brucewar",
+    "description": "This is my personal page deployed in BAE.",
     "scripts": {
-        "start": "node server.js"
+        "start": "node app.js"
     },
     "dependencies": {
+	"express": "*",
+	"mongoose": "*"
     }
 }
 
