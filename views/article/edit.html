@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <ol class="breadcrumb">
+            <li><a href="/">主页</a></li>
+            <li class="active">发表博文</li>
+          </ol>
+        </div>
+        <div class="panel-body">
+          <% if (locals.error) { %>
+          <div class="alert alert-danger">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <strong><%= error %></strong>
+          </div>
+          <% } %>
+          <% if (locals.success) { %>
+          <div class="alert alert-success">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <strong><%= success %></strong>
+          </div>
+          <% } else { %>
+            <% if(locals.article_id) { %>
+          <form id='create_article_form' class="form-horizontal" action='/article/<%= article_id %>/edit' method='post' role="form">
+            <% } else { %>
+          <form id='create_article_form' class="form-horizontal" action='/article/write' method='post' role="form">
+            <% } %>
+            <fieldset>
+              <textarea class="form-control" autofocus id='title' name='title' rows='1'
+                        placeholder="请在此输入标题，字数控制在5到100个之间"
+                ><%= locals.title || '' %></textarea>
+              <textarea id="editor" class="form-control" name='content' rows='20'
+                        placeholder='用 Markdown 输入文章的内容'
+                ><%= locals.content || '' %></textarea>
+              <div class="preview"></div>
+              <div class="form-group">
+                <label for="class_id" class="col-md-1 control-label">分类</label>
+                <div class="col-md-4">
+                  <select id="class_id" name="class_id" class="form-control">
+                    <option value="0">选择分类</option>
+                    <% if(locals.classes) { %>
+                      <% for(var i = 0, len = classes.length; i < len; i++) { %>
+                        <% if(locals.class_id && class_id.toString() == classes[i]._id.toString()){ %>
+                        <option value="<%= classes[i]._id %>" selected="selected"><%= classes[i].name %></option>
+                        <% } else { %>
+                        <option value="<%= classes[i]._id %>"><%= classes[i].name %></option>
+                        <% } %>
+                      <% } %>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-offset-2">
+                  <button class="btn" id="btn_preview">预览</button>
+                  <button id='btn_submit' type="submit" class='btn btn-primary'>发布</button>
+                  <button class="btn sr-only" id="btn_modify">修改</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class='panel panel-default'>
+        <div class='panel-heading'>
+          <h3 class='panel-title'>Markdown 语法参考</h3>
+        </div>
+        <div class='inner'>
+          <ol>
+            <li><tt>### 单行的标题</tt></li>
+            <li><tt>**粗体**</tt></li>
+            <li><tt>`console.log('行内代码')`</tt></li>
+            <li><tt>```</tt> 包裹标记代码块</li>
+            <li><tt>```js</tt> 在开始的位置标记编程语言</li>
+            <li><tt>[内容](链接)</tt></li>
+            <li><tt>![文字说明](图片链接)</tt></li>
+            <li><a href='http://www.ituring.com.cn/article/775' target='_blank'>Markdown 文档</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- markdown editor -->
+<link rel="stylesheet" href="/libs/code-prettify/prettify.css"/>
+<script src="/libs/code-prettify/prettify.js"></script>
+<script src="/libs/marked.js"></script>
+<script src="/javascripts/markdown_editor.js"></script>

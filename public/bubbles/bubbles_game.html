@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/GIF" href="res/favicon.ico"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="full-screen" content="yes"/>
+    <meta name="screen-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="360-fullscreen" content="true"/>
+    <title>咕嘟消除</title>
+    <link rel="icon" type="image/GIF" href="js/res/favicon.ico"/>
+    <!--<link rel="stylesheet" href="./public/jquery.mobile-1.3.1.min.css"/>-->
+    <!--<script src="./public/jquery-1.9.1.min.js"></script>-->
+    <!--<script src="./public/jquery.mobile-1.3.1.min.js"></script>-->
+
+    <style type='text/css'>
+        html, body {
+            height: 100%;
+            margin: 0px;
+        }
+    </style>
+
+    <style type='text/css'>
+        html {
+            background-color: #333;
+        }
+    </style>
+
+    <script type="text/javascript">
+        //document.domain = "qq.com";
+        window.onunload = refresh;
+        window.onbeforeunload = refresh;
+
+        function refresh() {
+            return "游戏数据将丢失，确定要刷新吗?";
+        }
+    </script>
+</head>
+<body>
+<div data-role="page" id="game" data-url="game">
+    <div id="gameContainer">
+    </div>
+    <script src="bubbles_cocos2d.js"></script>
+</div>
+</body>
+</html>

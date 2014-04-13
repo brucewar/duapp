@@ -1,37 +1,46 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('express')
-    ,routes = require('./routes/routes')
-    , http = require('http')
-    , path = require('path')
-    , ejs = require('ejs');
+var express = require('express'),
+  http = require('http'),
+  path = require('path'),
+  ejs = require('ejs'),
+  partials = require('express-partials'),
+  config = require('./config').config,
+  routes = require('./routes');
 var app = express();
 
 // all environments
-//app.set('port', process.env.APP_PORT);
-app.set('port',process.env.PORT||3000);
-app.set('views', __dirname + '/views');
+app.set('port', config.port);
+app.set('views', path.join(__dirname, 'views'));
 app.engine('.html', ejs.__express);
 app.set('view engine', 'html');
-app.use(express.favicon());
-//app.use(express.logger('dev'));
+app.use(partials());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.cookieParser());
+app.use(express.session({
+  secret: config.session_secret
+}));
 
 // development only
-if ('development' == app.get('env')) {
-    app.use(express.errorHandler());
-}
+app.configure('development', function(){
+  app.use(express.logger('dev'));
+  app.use(express.errorHandler());
+});
+
+//production
+app.configure('production', function(){
+
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 routes(app);
 
-http.createServer(app).listen(app.get('port'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function () {
+  console.log('Express server listening on port ' + app.get('port'));
 });
+
+module.exports = app;

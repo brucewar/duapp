@@ -1,14 +1,17 @@
 {
   "name": "MyPage",
   "version": "0.0.1",
-  "private": true,
+  "author": "brucewar",
+  "description": "This is my personal page deployed in BAE.",
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.2.5",
-    "ejs": "*",
-    "connect-mongo":">=0.1.7",
-    "mongodb":">=0.9.9"
+    "mongoose": "~3.6.14",
+    "ejs": "~1.0.0",
+    "express": "~3.5.1",
+    "express-partials": "~0.2.0",
+    "validator": "~3.7.0",
+    "eventproxy": "~0.3.1"
   }
 }
