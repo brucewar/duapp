@@ -1,0 +1,61 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">
+      博文分类
+      <% if(locals.user) { %>
+      <button class="btn-link pull-right" data-toggle="modal" data-target="#manage_class">管理</button>
+      <% } %>
+    </div>
+  </div>
+  <div class="inner no-padding">
+    <div class="list-group">
+      <a class="list-group-item active">
+        <span class="badge">
+          <% var counts = 0; %>
+          <% for(var i = 0, len = classes.length; i < len; i++) { %>
+            <% counts += classes[i].count; %>
+          <% } %>
+          <%= counts %>
+        </span>
+        全部博文
+      </a>
+      <% classes.forEach(function(cl){ %>
+      <a class="list-group-item">
+        <span class="badge"><%= cl.count %></span>
+        <%= cl.name %>
+      </a>
+      <% }); %>
+    </div>
+    <!-- manage class dialog -->
+    <div id="manage_class" class="modal fade" role="dialog" data-backdrop="static" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
+            <h4 class="modal-title">分类管理</h4>
+          </div>
+          <div class="modal-body">
+            <div>
+              <input id="class_name" type="text" class="col-md-5" maxlength="20" placeholder="最多可输入10个中文字符">
+              <button id="add_class" class="btn btn-primary">创建分类</button>
+              <span class="help-inline">请用中文、英文或数字。</span>
+            </div>
+            <p class="warn sr-only"></p>
+            <div id="class_list" class="inner no-padding">
+              <% for(var i =0, len = classes.length; i < len; i++) { %>
+              <div class="cell">
+                <input type="text" class="col-md-5 pull-left" value="<%= classes[i].name %>" id="<%= classes[i]._id %>" name="<%= classes[i].name %>">
+                <button class="btn btn-link pull-right">删除</button>
+              </div>
+              <% } %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="save_class_change">保存设置</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/javascripts/manage_class.js"></script>

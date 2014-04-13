@@ -5,24 +5,33 @@
     this.scope = _scope;
     this.stoneArray = [];
 
-    for (var c = this.col - 1; c >= 0; c--) {
-      for (var r = 0; r < this.row; r += 2) {
+//    for (var c = this.col - 1; c >= 0; c--) {
+//      for (var r = 0; r < this.row; r += 2) {
+//        var rand = Math.floor(Math.random() * this.scope);
+//        if (r == 0) {
+//          this.stoneArray[r][c] = rand;
+//          this.stoneArray[r + 1][c] = rand;
+//        } else {
+//          if (Math.floor(Math.random() * 2) == 0) {
+//            this.stoneArray[r][c] = rand;
+//            this.stoneArray[r + 1][c] = rand;
+//          } else {
+//            var temp = this.stoneArray[r - 1][c];
+//            this.stoneArray[r - 1][c] = rand;
+//            this.stoneArray[r][c] = rand;
+//            this.stoneArray[r + 1][c] = temp;
+//          }
+//        }
+//      }
+//    }
+
+    for (var r = 0; r < this.row; r++) {
+      var rowStone = [];
+      for (var c = 0; c < this.col; c++) {
         var rand = Math.floor(Math.random() * this.scope);
-        if (r == 0) {
-          this.stoneArray[r][c] = rand;
-          this.stoneArray[r + 1][c] = rand;
-        } else {
-          if (Math.floor(Math.random() * 2) == 0) {
-            this.stoneArray[r][c] = rand;
-            this.stoneArray[r + 1][c] = rand;
-          } else {
-            var temp = this.stoneArray[r - 1][c];
-            this.stoneArray[r - 1][c] = rand;
-            this.stoneArray[r][c] = rand;
-            this.stoneArray[r + 1][c] = temp;
-          }
-        }
+        rowStone.push(rand);
       }
+      this.stoneArray.push(rowStone);
     }
   }
 

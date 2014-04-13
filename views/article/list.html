@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="panel-title">
+      全部博文
+      <% if(locals.user) { %>
+      <a class="btn btn-primary btn-xs pull-right" href="/article/write">写博文</a>
+      <% } %>
+    </div>
+  </div>
+  <div id="article_list" class="inner no-padding">
+    <%- include adapter.html %>
+  </div>
+  <div class="center-block">
+    <ul class="pagination">
+      <li><a href="#">&laquo;</a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li><a href="#">&raquo;</a></li>
+    </ul>
+  </div>
+</div>
+<script src="/javascripts/manage_article.js"></script>

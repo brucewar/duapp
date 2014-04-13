@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <% if (locals.error) { %>
+    <div class="col-md-offset-2 alert alert-danger">
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+      <strong><%= error %></strong>
+    </div>
+    <% } %>
+    <% if (locals.success) { %>
+    <div class="col-md-offset-2 alert alert-success">
+      <a class="close" data-dismiss="alert" href="#">&times;</a>
+      <strong><%= success %></strong>
+    </div>
+    <% } else { %>
+    <form class="form-horizontal" role="form" action="/register" method="post">
+      <div class="form-group">
+        <label for="user_name" class="col-md-offset-2 col-md-2 control-label">用户名：</label>
+        <div class="col-md-4">
+          <% if(locals.userName) { %>
+          <input type="text" class="form-control" id="user_name" name="user_name" size="30" value="<%= userName %>">
+          <% } else { %>
+          <input type="text" class="form-control" id="user_name" name="user_name" size="30" placeholder="用户名">
+          <% } %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password" class="col-md-offset-2 col-md-2 control-label">密码：</label>
+        <div class="col-md-4">
+          <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="repeat_password" class="col-md-offset-2 col-md-2 control-label">重复密码：</label>
+        <div class="col-md-4">
+          <input type="password" class="form-control" id="repeat_password" name="repeat_password" placeholder="重复输入密码">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-offset-4">
+          <button type="submit" class="btn btn-primary">注册</button>
+        </div>
+      </div>
+    </form>
+    <% } %>
+  </div>
+</div>

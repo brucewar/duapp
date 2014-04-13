@@ -74,7 +74,7 @@ var GameLayer = cc.Layer.extend({
     this.requireScore = requireScore;
     this.score = score;
     this.level = 1;
-    cc.Director.getInstance().getTouchDispatcher().addTargetedDelegate(this, 0, true);
+    cc.Director.getInstance().getTouchDispatcher()._addTargetedDelegate(this, 0, true);
     this.soundEffect = cc.AudioEngine.getInstance();
     this.soundEffect.setEffectsVolume(0.5);
   },
@@ -119,16 +119,16 @@ var GameLayer = cc.Layer.extend({
       this.firstWidth = (size.width - COL * this.stoneWidth - blank * (COL + 1)) / 2;
     }
 
-    // prepare font
-    var isIOS = browser.versions.ios;
-    if (true == isIOS || "true" == isIOS) {
-      FONT_TYPE = "Futura-CondensedExtraBold";
-    }
+//    // prepare font
+//    var isIOS = browser.versions.ios;
+//    if (true == isIOS || "true" == isIOS) {
+//      FONT_TYPE = "Futura-CondensedExtraBold";
+//    }
 
     //
     for (var i = 0; i < 5; i++) {
       var path;
-      path = "../res/" + i + ".png";
+      path = "./js/res/" + i + ".png";
       var batchNode = cc.SpriteBatchNode.create(path);
       this.addChild(batchNode, 1);
       this.stoneBatchNodes.push(batchNode);
@@ -201,7 +201,6 @@ var GameLayer = cc.Layer.extend({
 
     // add floor
     this.gameState = STATE_PREPARE;
-    this.downloadImg();
     this.setTouchEnabled(true);
     this.scheduleUpdate();
   },

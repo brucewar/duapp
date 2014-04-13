@@ -1,20 +1,20 @@
-var s_0 = "bubbles/js/res/0.png";
-var s_1 = "bubbles/js/res/1.png";
-var s_2 = "bubbles/js/res/2.png";
-var s_3 = "bubbles/js/res/3.png";
-var s_back = "bubbles/js/res/bubble_background.png";
+var s_0 = "./js/res/0.png";
+var s_1 = "./js/res/1.png";
+var s_2 = "./js/res/2.png";
+var s_3 = "./js/res/3.png";
+var s_back = "./js/res/bubble_background.png";
 
-var s_ButtonReturnDown = "bubbles/js/res/return_down.png";
-var s_ButtonReturnUp = "bubbles/js/res/return_up.png";
-var s_ButtonRefreshDown = "bubbles/js/res/refresh_down.png";
-var s_ButtonRefreshUp = "bubbles/js/res/refresh_up.png";
+var s_ButtonReturnDown = "./js/res/return_down.png";
+var s_ButtonReturnUp = "./js/res/return_up.png";
+var s_ButtonRefreshDown = "./js/res/refresh_down.png";
+var s_ButtonRefreshUp = "./js/res/refresh_up.png";
 
-var s_Floor = "bubbles/js/res/bubble_floor.png";
+var s_Floor = "./js/res/bubble_floor.png";
 
-var s_Stars = "bubbles/js/res/stars.png";
-var s_StoneRemove = "bubbles/js/res/stone_remove.plist";
+var s_Stars = "./js/res/stars.png";
+var s_StoneRemove = "./js/res/stone_remove.plist";
 
-var s_StoneRemoveSound = "bubbles/js/res/btn_bubble.ogg";
+var s_StoneRemoveSound = "./js/res/btn_bubble.ogg";
 
 var g_ressources = [
   //image
