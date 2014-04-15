@@ -27,6 +27,7 @@ module.exports = function (app) {
   app.post('/article/:aid/edit', sign.requireLogin, article.update);
   app.post('/article/change', article.changeArticleClass);
   app.post('/article/delete', article.deleteArticleByID);
+  app.get('/article/:aid', article.getArticleByID);
 
   //article_class
   app.post('/class/manage', articleClass.saveClassesChange);
