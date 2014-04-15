@@ -3,11 +3,11 @@ var config = require('../config').config;
 
 var connect_string;
 //development
-connect_string = config.local_db;
+//connect_string = config.local_db;
 
 //production
-//connect_string = "mongodb://" + config.db.user_name + ":" + config.db.password + "@" +
-//  config.db.host + ":" + config.db.port + "/" + config.db.name;
+connect_string = "mongodb://" + config.db.user_name + ":" + config.db.password + "@" +
+  config.db.host + ":" + config.db.port + "/" + config.db.name;
 
 mongoose.connect(connect_string, function(err){
   if(err){
