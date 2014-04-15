@@ -32,11 +32,8 @@ exports.showArticleContent = function(req, res){
       res.render('article/content', {user: req.session.user, classes: classes, articles: articles});
     });
   });
-<<<<<<< HEAD
 };
 
 exports.showAbout = function(req, res){
-  res.render('about');
-=======
->>>>>>> 978684b24bf9a5dedc6676e563b41da3989db78f
+  res.render('about', {user: req.session.user});
 };
