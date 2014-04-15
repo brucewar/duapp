@@ -32,10 +32,13 @@ ol {
     padding: 0;
 }
 
+<<<<<<< HEAD
 .panel .panel-footer {
     text-align: right;
 }
 
+=======
+>>>>>>> 978684b24bf9a5dedc6676e563b41da3989db78f
 .cell {
     overflow: hidden;
     position: relative;
@@ -114,6 +117,7 @@ span.time {
     margin-top: 5px;
     margin-bottom: 10px;
     color: #737373;
+<<<<<<< HEAD
 }
 
 p.description {
@@ -134,4 +138,6 @@ h3.title {
 #article .time,.class {
     font-size: 11px;
     color: #838383;
+=======
+>>>>>>> 978684b24bf9a5dedc6676e563b41da3989db78f
 }
