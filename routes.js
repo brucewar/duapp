@@ -11,6 +11,7 @@ module.exports = function (app) {
   //page
   app.get('/', site.index);
   app.get('/content', site.showArticleContent);
+  app.get('/about', site.showAbout);
 
   //sign
   app.get('/register', sign.showRegister);

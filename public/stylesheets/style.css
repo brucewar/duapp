@@ -111,3 +111,11 @@ span.time {
     margin-bottom: 10px;
     color: #737373;
 }
+
+p.description {
+    margin: 20px 0;
+}
+
+h3.title {
+    color: #428bca;
+}
