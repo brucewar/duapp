@@ -32,6 +32,10 @@ ol {
     padding: 0;
 }
 
+.panel .panel-footer {
+    text-align: right;
+}
+
 .cell {
     overflow: hidden;
     position: relative;
@@ -118,4 +122,16 @@ p.description {
 
 h3.title {
     color: #428bca;
+}
+
+#article .title {
+    font-size: 20px;
+    font-weight: 700;
+    display: inline-block;
+    line-height: 2em;
+}
+
+#article .time,.class {
+    font-size: 11px;
+    color: #838383;
 }

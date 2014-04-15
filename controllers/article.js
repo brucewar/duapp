@@ -1,7 +1,8 @@
 var Article = require('../models').Article,
   ArticleClass = require('../models').ArticleClass;
 
-var validator = require('validator');
+var validator = require('validator'),
+  utils = require('../libs/utils');
 
 exports.showWrite = function(req, res){
   if(!req.session || !req.session.user){
@@ -137,34 +138,20 @@ exports.changeArticleClass = function (req, res) {
   });
 };
 
-exports.updateArticle = function (req, res) {
-  var article_id = req.body.article_id;
-  var title = req.body.title;
-  var content = req.body.content;
-  var article_class_id = req.body.articleClass_id;
-
-  var update = {
-    title: title,
-    content: content,
-    article_class_id: article_class_id
-  };
-  Article.findByIdAndUpdate(article_id, {$set: update}, function (err) {
-    if (err) {
-      res.json({status: 'failed'});
-      return err;
-    }
-    res.json({status: 'success'});
-  });
-};
-
-exports.getArticleByID = function getArticleByID(req, res) {
-  var article_id = req.query.article_id;
+exports.getArticleByID = function (req, res) {
+  var article_id = req.params.aid;
 
   Article.findById(article_id, function (err, article) {
     if (err) {
-      res.json({status: 'failed'});
       return err;
     }
-    res.send(article);
+    ArticleClass.findById(article.class_id, function(err, cl){
+      if(err){
+        return err;
+      }
+      article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
+      article.class_name = cl.name;
+      res.render('article/index', {article: article, user: req.session.user});
+    });
   });
 };
