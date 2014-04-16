@@ -35,5 +35,5 @@ exports.showArticleContent = function(req, res){
 };
 
 exports.showAbout = function(req, res){
-  res.render('about');
+  res.render('about', {user: req.session.user});
 };
