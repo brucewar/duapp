@@ -145,11 +145,18 @@ exports.getArticleByID = function (req, res) {
     if (err) {
       return err;
     }
+
+    article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
+    article.class_name = '未分类';
+    if(!article.class_id){
+      res.render('article/index', {article: article, user: req.session.user});
+      return;
+    }
+
     ArticleClass.findById(article.class_id, function(err, cl){
       if(err){
         return err;
       }
-      article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
       article.class_name = cl.name;
       res.render('article/index', {article: article, user: req.session.user});
     });
