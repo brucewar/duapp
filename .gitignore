@@ -1,4 +1,5 @@
 .idea/
 db/
 log/
+node_modules/
 start_mypage_mongo.bat
