@@ -20,8 +20,11 @@ app.use(partials());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-app.use(express.session({
-  secret: config.session_secret
+app.use(express.cookieSession({
+  secret: config.session_secret,
+  cookie: {
+    maxAge: config.max_age
+  }
 }));
 
 // development only
