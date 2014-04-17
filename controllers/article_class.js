@@ -33,7 +33,7 @@ exports.saveClassesChange = function (req, res) {
             res.json({status: 'failed'});
             return err;
           }
-          Article.update({class_id: cl._id}, {$set: {class_id: ''}}, {multi: true}, function(err){
+          Article.update({class_id: cl._id}, {$unset: {class_id: ''}}, {multi: true}, function(err, numAffect){
             if(err){
               res.json({status: 'failed'});
               return err;
