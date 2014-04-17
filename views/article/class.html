@@ -62,11 +62,12 @@
   $(function(){
     var search = location.search;
     var $classList = $('div.list-group');
-    if(search == ''){
+    if(search.indexOf('class_id') < 0){
       $classList.find('a:first').addClass('active');
     }else{
       $classList.find('a:gt(0)').each(function(){
-        if($(this).attr('href').indexOf(search) != -1){
+        //href: '/content/class_id=...'
+        if(search.indexOf($(this).attr('href').substr(9)) > 0){
           $(this).addClass('active');
           var currentClassName = $(this).text().trim();
           currentClassName = currentClassName.substr($(this).find('span').text().length);

@@ -11,6 +11,8 @@ exports.config = {
   session_secret: "mypagebybrucewar",
   max_age: 3600000 * 24 * 30,
 
+  page_limit: 10,
+
   //db info
   db: {
     user_name: "prjcuLAqrarGhhCAhG1tksC5",

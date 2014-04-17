@@ -10,16 +10,70 @@
   <div id="article_list" class="inner no-padding">
     <%- include adapter.html %>
   </div>
+  <% if(articles.length !== 0){ %>
   <div class="center-block">
     <ul class="pagination">
-      <li><a href="#">&laquo;</a></li>
-      <li><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li><a href="#">&raquo;</a></li>
+      <% var base = class_id == undefined ? '/content?page=' : '/content?class_id=' + class_id + '&page=' %>
+      <% if(current_page == 1) { %>
+      <li class="disabled"><a>&lt;上一页</a></li>
+      <% } else { %>
+      <li><a href="<%= base %><%= current_page - 1 %>">&lt;上一页</a></li>
+      <% } %>
+      <% if(current_page >= 5) { %>
+        <li><a href="<%= base %>1">1</a></li>
+        <li><a>...</a></li>
+        <% if((current_page + 2) < pages) { %>
+        <li><a href="<%= base %><%= current_page - 2 %>"><%= current_page - 2 %></a></li>
+        <li><a href="<%= base %><%= current_page - 1 %>"><%= current_page - 1 %></a></li>
+        <li><a href="<%= base %><%= current_page %>"><%= current_page %></a></li>
+        <li><a href="<%= base %><%= parseInt(current_page, 10) + 1 %>"><%= parseInt(current_page, 10) + 1 %></a></li>
+        <li><a href="<%= base %><%= parseInt(current_page, 10) + 2 %>"><%= parseInt(current_page, 10) + 2 %></a></li>
+        <li><a>...</a></li>
+        <% } else { %>
+        <li><a href="<%= base %><%= pages - 4 %>"><%= pages - 4 %></a></li>
+        <li><a href="<%= base %><%= pages - 3 %>"><%= pages - 3 %></a></li>
+        <li><a href="<%= base %><%= pages - 2 %>"><%= pages - 2 %></a></li>
+        <li><a href="<%= base %><%= pages - 1 %>"><%= pages - 1 %></a></li>
+        <li><a href="<%= base %><%= pages %>"><%= pages %></a></li>
+        <% } %>
+      <% } else { %>
+        <% if(pages > 5) { %>
+        <li><a href="<%= base %>1">1</a></li>
+        <li><a href="<%= base %>2">2</a></li>
+        <li><a href="<%= base %>3">3</a></li>
+        <li><a href="<%= base %>4">4</a></li>
+        <li><a href="<%= base %>5">5</a></li>
+        <li><a>...</a></li>
+        <% } else { %>
+        <% var i = 0; %>
+        <% while(++i <= pages) { %>
+          <li><a href="<%= base + i %>"><%= i %></a></li>
+        <% } %>
+        <% } %>
+      <% } %>
+      <% if(current_page == pages) { %>
+      <li class="disabled"><a>&gt;下一页</a></li>
+      <% } else { %>
+      <li><a href="<%= base %><%= parseInt(current_page, 10) + 1 %>">下一页&gt;</a></li>
+      <% } %>
     </ul>
   </div>
+  <% } %>
 </div>
+<script type="text/javascript">
+  $(function(){
+    var search = location.search;
+    if(search.indexOf('page') < 0){
+      $('ul.pagination').find('li:eq(1)').addClass('active');
+    }else{
+      var current_page = search.substr(search.indexOf('page') + 5);
+      $('ul.pagination').find('li').each(function(){
+        if($(this).text() == current_page){
+          $(this).addClass('active');
+          return false;
+        }
+      });
+    }
+  });
+</script>
 <script src="/javascripts/manage_article.js"></script>
