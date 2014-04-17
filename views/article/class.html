@@ -10,26 +10,19 @@
   <div class="inner no-padding">
     <div class="list-group">
       <a class="list-group-item" href="/content">
-        <span class="badge">
-          <% var all_counts = 0; %>
-          <% for(var i = 0, len = classes.length; i < len; i++) { %>
-            <% all_counts += classes[i].count; %>
-          <% } %>
-          <% all_counts += noClass_count %>
-          <%= all_counts %>
-        </span>
-        全部博文
+        <% var all_counts = 0; %>
+        <% for(var i = 0, len = classes.length; i < len; i++) { %>
+        <% all_counts += classes[i].count; %>
+        <% } %>
+        <% all_counts += noClass_count %>
+        <span class="badge"><%= all_counts %></span>全部博文
       </a>
       <a class="list-group-item" href="/content?class_id=0">
-        <span class="badge">
-          <%= noClass_count %>
-        </span>
-        未分类
+        <span class="badge"><%= noClass_count %></span>未分类
       </a>
       <% classes.forEach(function(cl){ %>
       <a class="list-group-item" href="/content?class_id=<%= cl._id %>">
-        <span class="badge"><%= cl.count %></span>
-        <%= cl.name %>
+        <span class="badge"><%= cl.count %></span><%= cl.name %>
       </a>
       <% }); %>
     </div>
@@ -69,12 +62,16 @@
   $(function(){
     var search = location.search;
     var $classList = $('div.list-group');
-    if(search == ''){
+    if(search.indexOf('class_id') < 0){
       $classList.find('a:first').addClass('active');
     }else{
       $classList.find('a:gt(0)').each(function(){
-        if($(this).attr('href').indexOf(search) != -1){
+        //href: '/content/class_id=...'
+        if(search.indexOf($(this).attr('href').substr(9)) > 0){
           $(this).addClass('active');
+          var currentClassName = $(this).text().trim();
+          currentClassName = currentClassName.substr($(this).find('span').text().length);
+          $('#current_class').text(currentClassName);
           return false;
         }
       });

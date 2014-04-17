@@ -2,8 +2,9 @@ var models = require('../models');
 var ArticleClass = models.ArticleClass,
   Article = models.Article;
 
-var utils = require('../libs/utils');
-var EventProxy = require('eventproxy');
+var utils = require('../libs/utils'),
+  EventProxy = require('eventproxy'),
+  config = require('../config').config;
 
 exports.index = function(req, res){
   res.render('index', {user: req.session.user});
@@ -11,24 +12,59 @@ exports.index = function(req, res){
 
 exports.showArticleContent = function(req, res){
   var classId = req.query.class_id;
-  var page = req.query.page;
+  var current_page = req.query.page || 1;
 
-  var render = function(noClassCount, classes, articles){
+  var limit = config.page_limit;
+
+  var render = function(noClassCount, classes, articles, pages){
     res.render('article/content', {
       user: req.session.user,
       class_id: classId,
       noClass_count: noClassCount,
       classes: classes,
-      articles: articles
+      articles: articles,
+      current_page: current_page,
+      pages: pages
     });
   };
 
-  var proxy = EventProxy.create('noClassCount', 'classes', 'articles', render);
+  var proxy = EventProxy.create('noClassCount', 'classes', 'articles', 'pages', render);
   proxy.fail(function(err){
     if(err){
       return err;
     }
   });
+
+  //获取总页数
+  switch(classId){
+    case undefined:
+      Article.count(function(err, count){
+        if(err){
+          return err;
+        }
+        var pages = Math.ceil(count / limit);
+        proxy.emit('pages', pages);
+      });
+      break;
+    case '0':
+      Article.count({class_id: undefined}, function(err, count){
+        if(err){
+          return err;
+        }
+        var pages = Math.ceil(count / limit);
+        proxy.emit('pages', pages);
+      });
+      break;
+    default :
+      Article.count({class_id: classId}, function(err, count){
+        if(err){
+          return err;
+        }
+        var pages = Math.ceil(count / limit);
+        proxy.emit('pages', pages);
+      });
+      break;
+  }
 
   //获取未分类博文篇数
   Article.count({class_id: undefined}, proxy.done('noClassCount'));
@@ -51,10 +87,11 @@ exports.showArticleContent = function(req, res){
     }
   });
 
+  var options = {skip: (current_page - 1) * limit, limit: limit, sort: [['time', 'desc']]};
   //获取博文信息
   switch(classId){
     case undefined:
-      Article.find(function(err, articles){
+      Article.find({}, null, options, function(err, articles){
         if(err){
           return err;
         }
@@ -65,7 +102,7 @@ exports.showArticleContent = function(req, res){
       });
       break;
     case '0':
-      Article.find({class_id: undefined}, function(err, articles){
+      Article.find({class_id: undefined}, null, options, function(err, articles){
         if(err){
           return err;
         }
@@ -76,7 +113,7 @@ exports.showArticleContent = function(req, res){
       });
       break;
     default :
-      Article.find({class_id: classId}, function(err, articles){
+      Article.find({class_id: classId}, null, options, function(err, articles){
         if(err){
           return err;
         }
