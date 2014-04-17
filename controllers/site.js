@@ -11,7 +11,7 @@ exports.index = function(req, res){
 
 exports.showArticleContent = function(req, res){
   var classId = req.query.class_id;
-  var page = req.query.page;
+  var current_page = req.query.page;
 
   var render = function(noClassCount, classes, articles){
     res.render('article/content', {
