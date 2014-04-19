@@ -1,6 +1,7 @@
 var models = require('../models');
 var ArticleClass = models.ArticleClass,
-  Article = models.Article;
+  Article = models.Article,
+  Project = models.Project;
 
 var utils = require('../libs/utils'),
   EventProxy = require('eventproxy'),
@@ -17,7 +18,7 @@ exports.showArticleContent = function(req, res){
   var limit = config.page_limit;
 
   var render = function(noClassCount, classes, articles, pages){
-    res.render('article/content', {
+    res.render('content', {
       user: req.session.user,
       class_id: classId,
       noClass_count: noClassCount,
@@ -124,6 +125,19 @@ exports.showArticleContent = function(req, res){
       });
       break;
   }
+};
+
+exports.showProjectList = function(req, res){
+  Project.find(function(err, projects){
+    if(err){
+      return err;
+    }
+    projects.forEach(function(project){
+      project.start_time = utils.formatDate(project.time, 'yyyy-MM');
+      project.detail = project.detail ? project.detail.substr(0, 20) : '';
+    });
+    res.render('project', {user: req.session.user, projects: projects});
+  });
 };
 
 exports.showAbout = function(req, res){

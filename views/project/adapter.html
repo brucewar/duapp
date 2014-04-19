@@ -1,0 +1,34 @@
+<% if(!locals.projects || projects.length == 0) { %>
+<li class="list-group-item">暂无项目</li>
+<% } else { %>
+  <% if(locals.user) { %>
+    <% projects.forEach(function(project){ %>
+      <li class="list-group-item">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <a href="/project/<%= project._id %>"><%= project.name %></a>
+            <a class="pull-right" href="/project/<%= project._id %>/edit">[编辑]</a>
+          </div>
+          <div class="panel-body">
+            <p><%= project.start_time %></p>
+            <p><%= project.description %></p>
+            <p><%= project.detail %>...</p>
+          </div>
+        </div>
+      </li>
+    <% }); %>
+  <% } else { %>
+    <% projects.forEach(function(project){ %>
+      <li class="list-group-item">
+        <div class="panel panel-info">
+          <div class="panel-heading"><a href="/project/<%= project._id %>"><%= project.name %></a></div>
+          <div class="panel-body">
+            <p><%= project.start_time %></p>
+            <p><%= project.description %></p>
+            <p><%= project.detail %>...</p>
+          </div>
+        </div>
+      </li>
+    <% }); %>
+  <% } %>
+<% } %>
