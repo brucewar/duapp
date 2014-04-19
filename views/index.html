@@ -1,7 +1,34 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      首页面
+      <div id="article" class="panel panel-default">
+        <div class="panel-heading">近期文章</div>
+        <div class="inner no-padding">
+          <% articles.forEach(function(article){ %>
+            <div class="cell">
+              <a class="title" href="/article/<%= article._id %>"><%= article.title %></a>
+              <hr>
+              <div class="content"><%= article.content %></div>
+              <div>
+                <div class="pull-left time">
+                  写于<%= article.create_time %>&nbsp;属于分类:
+                  <% if(article.class_id) { %>
+                  <a href="/content?class_id=<%= article.class_id %>"><%= article.class_name %></a>
+                  <% } else { %>
+                  <a href="/content?class_id=0">未分类</a>
+                  <% } %>
+                </div>
+                <div class="pull-right time">回复数0</div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+<!-- markdown editor -->
+<link rel="stylesheet" href="/libs/code-prettify/prettify.css"/>
+<script src="/libs/code-prettify/prettify.js"></script>
+<script src="/libs/marked.js"></script>
+<script src="/javascripts/main.js"></script>

@@ -8,7 +8,32 @@ var utils = require('../libs/utils'),
   config = require('../config').config;
 
 exports.index = function(req, res){
-  res.render('index', {user: req.session.user});
+  var latest = 5;
+  var options = {limit: latest, sort: [['time', 'desc']]};
+  var render = function(articles){
+    res.render('index', {user: req.session.user, articles: articles});
+  };
+
+  var proxy = EventProxy.create('articles', render);
+  proxy.fail(function(err){
+    if(err){
+      return err;
+    }
+  });
+
+  Article.find({}, null, options, function(err, articles){
+    var classProxy = new EventProxy();
+    classProxy.after('class', articles.length, function(classes){
+      for(var i = 0, len = articles.length; i < len; i++){
+        articles[i].class_name = classes[i].name;
+        articles[i].create_time = utils.formatDate(articles[i].time, 'yyyy-MM-dd');
+      }
+      proxy.emit('articles', articles);
+    });
+    for(var i = 0, len = articles.length; i < len ; i++){
+      ArticleClass.find({_id: articles.class_id}, classProxy.group('class'));
+    }
+  });
 };
 
 exports.showArticleContent = function(req, res){

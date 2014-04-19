@@ -146,3 +146,7 @@ h3.title {
     font-size: 15px;
     color: #838383;
 }
+
+a:hover {
+    text-decoration: none;
+}
