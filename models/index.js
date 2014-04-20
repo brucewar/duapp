@@ -20,7 +20,9 @@ mongoose.connect(connect_string, function(err){
 require('./user');
 require('./article_class');
 require('./article');
+require('./project');
 
 exports.User = mongoose.model('User');
 exports.ArticleClass = mongoose.model('ArticleClass');
 exports.Article = mongoose.model('Article');
+exports.Project = mongoose.model('Project');

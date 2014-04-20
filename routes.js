@@ -5,12 +5,14 @@ var site = require('./controllers/site');
 var sign = require('./controllers/sign');
 var articleClass = require('./controllers/article_class');
 var article = require('./controllers/article');
+var project = require('./controllers/project');
 
 module.exports = function (app) {
 
   //page
   app.get('/', site.index);
   app.get('/content', site.showArticleContent);
+  app.get('/project', site.showProjectList);
   app.get('/about', site.showAbout);
 
   //sign
@@ -31,4 +33,11 @@ module.exports = function (app) {
 
   //article_class
   app.post('/class/manage', articleClass.saveClassesChange);
+
+  //project
+  app.get('/project/create', sign.requireLogin, project.showCreate);
+  app.get('/project/:pid/edit', sign.requireLogin, project.showEdit);
+  app.post('/project/create', sign.requireLogin, project.create);
+  app.post('/project/:pid/edit', sign.requireLogin, project.update);
+  app.get('/project/:pid', project.getProjectByID);
 };

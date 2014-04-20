@@ -1,13 +1,41 @@
 var models = require('../models');
 var ArticleClass = models.ArticleClass,
-  Article = models.Article;
+  Article = models.Article,
+  Project = models.Project;
 
 var utils = require('../libs/utils'),
   EventProxy = require('eventproxy'),
   config = require('../config').config;
 
 exports.index = function(req, res){
-  res.render('index', {user: req.session.user});
+  var latest = 5;
+  var options = {limit: latest, sort: [['time', 'desc']]};
+  var render = function(articles){
+    res.render('index', {user: req.session.user, articles: articles});
+  };
+
+  var proxy = EventProxy.create('articles', render);
+  proxy.fail(function(err){
+    if(err){
+      return err;
+    }
+  });
+
+  Article.find({}, null, options, function(err, articles){
+    var classProxy = new EventProxy();
+    classProxy.after('class', articles.length, function(classes){
+      for(var i = 0, len = articles.length; i < len; i++){
+        if(classes[i]){
+          articles[i].class_name = classes[i].name;
+        }
+        articles[i].create_time = utils.formatDate(articles[i].time, 'yyyy-MM-dd');
+      }
+      proxy.emit('articles', articles);
+    });
+    for(var i = 0, len = articles.length; i < len ; i++){
+      ArticleClass.findOne({_id: articles[i].class_id}, classProxy.group('class'));
+    }
+  });
 };
 
 exports.showArticleContent = function(req, res){
@@ -17,7 +45,7 @@ exports.showArticleContent = function(req, res){
   var limit = config.page_limit;
 
   var render = function(noClassCount, classes, articles, pages){
-    res.render('article/content', {
+    res.render('content', {
       user: req.session.user,
       class_id: classId,
       noClass_count: noClassCount,
@@ -124,6 +152,19 @@ exports.showArticleContent = function(req, res){
       });
       break;
   }
+};
+
+exports.showProjectList = function(req, res){
+  Project.find(function(err, projects){
+    if(err){
+      return err;
+    }
+    projects.forEach(function(project){
+      project.start_time = utils.formatDate(project.time, 'yyyy-MM');
+      project.detail = project.detail ? project.detail.substr(0, 20) : '';
+    });
+    res.render('project', {user: req.session.user, projects: projects});
+  });
 };
 
 exports.showAbout = function(req, res){
