@@ -21,8 +21,10 @@ require('./user');
 require('./article_class');
 require('./article');
 require('./project');
+require('./comment');
 
 exports.User = mongoose.model('User');
 exports.ArticleClass = mongoose.model('ArticleClass');
 exports.Article = mongoose.model('Article');
 exports.Project = mongoose.model('Project');
+exports.Comment = mongoose.model('Comment');

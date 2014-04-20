@@ -17,7 +17,7 @@ marked.setOptions({
 });
 
 $(document).ready(function(){
-  var $content = $('#article').find('div.inner');
+  var $content = $('#article_content');
   var content = $content.html();
   content = content.replace(/^\s+|\s+$/g, '');
   var html = marked(content);

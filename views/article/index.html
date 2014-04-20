@@ -9,7 +9,7 @@
             <div class="class">分类:<%= article.class_name %></div>
           </div>
         </div>
-        <div class="inner no-padding">
+        <div id="article_content" class="inner no-padding">
           <%= article.content %>
         </div>
         <div class="panel-footer">
@@ -17,6 +17,7 @@
             >分享到微博</button>
         </div>
       </div>
+      <%- include ../comment/list.html %>
     </div>
   </div>
 </div>
