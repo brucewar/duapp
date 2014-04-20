@@ -25,13 +25,15 @@ exports.index = function(req, res){
     var classProxy = new EventProxy();
     classProxy.after('class', articles.length, function(classes){
       for(var i = 0, len = articles.length; i < len; i++){
-        articles[i].class_name = classes[i].name;
+        if(classes[i]){
+          articles[i].class_name = classes[i].name;
+        }
         articles[i].create_time = utils.formatDate(articles[i].time, 'yyyy-MM-dd');
       }
       proxy.emit('articles', articles);
     });
     for(var i = 0, len = articles.length; i < len ; i++){
-      ArticleClass.find({_id: articles.class_id}, classProxy.group('class'));
+      ArticleClass.findOne({_id: articles[i].class_id}, classProxy.group('class'));
     }
   });
 };
