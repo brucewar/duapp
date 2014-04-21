@@ -148,6 +148,12 @@ exports.getArticleByID = function (req, res) {
     if (err) {
       return err;
     }
+    article.read_count++;
+    article.save(function(err){
+      if(err){
+        return err;
+      }
+    });
     var render = function(className, comments){
       article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
       article.class_name = className;
