@@ -10,8 +10,8 @@
         <img class="media-object" src="<%= comment.gravatar %>">
       </a>
       <div class="media-body">
-        <h4 class="media-heading"><a href="<%= comment.site %>" rel="nofollow"><%= comment.name %></a>于<%= comment.create_time %>说道:</h4>
-        <%= comment.comment %>
+        <h4 class="media-heading text-muted "><a href="<%= comment.site %>" rel="nofollow"><%= comment.name %></a>于<%= comment.create_time %>说道:</h4>
+        <div class="comment"><%= comment.comment %></div>
       </div>
     </div>
     <% }); %>

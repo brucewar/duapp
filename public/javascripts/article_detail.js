@@ -22,5 +22,9 @@ $(document).ready(function(){
   content = content.replace(/^\s+|\s+$/g, '');
   var html = marked(content);
   $content.html(html);
+  $('div.comment').each(function(){
+    var comment = $(this).html();
+    $(this).html(marked(comment));
+  });
   prettyPrint();
 });
