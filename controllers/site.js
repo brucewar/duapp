@@ -1,7 +1,8 @@
 var models = require('../models');
 var ArticleClass = models.ArticleClass,
   Article = models.Article,
-  Project = models.Project;
+  Project = models.Project,
+  Comment = models.Comment;
 
 var utils = require('../libs/utils'),
   EventProxy = require('eventproxy'),
@@ -30,10 +31,20 @@ exports.index = function(req, res){
         }
         articles[i].create_time = utils.formatDate(articles[i].time, 'yyyy-MM-dd');
       }
-      proxy.emit('articles', articles);
     });
     for(var i = 0, len = articles.length; i < len ; i++){
       ArticleClass.findOne({_id: articles[i].class_id}, classProxy.group('class'));
+    }
+    //取评论数
+    var commentProxy = new EventProxy();
+    commentProxy.after('comment_count', articles.length, function(comment_counts){
+      for(var i = 0, len = articles.length; i < len; i++){
+        articles[i].comment_count = comment_counts[i];
+      }
+      proxy.emit('articles', articles);
+    });
+    for(var j = 0; j < len ; j++){
+      Comment.count({article_id: articles[j]._id}, commentProxy.group('comment_count'));
     }
   });
 };
