@@ -150,7 +150,7 @@ exports.getArticleByID = function (req, res) {
     }
     var render = function(className, comments){
       article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
-      article.class_name = className || '未分类';
+      article.class_name = className;
       res.render('article/index', {user: req.session.user, article: article, comments: comments});
     };
     var proxy = EventProxy.create('classname', 'comments', render);
@@ -166,6 +166,8 @@ exports.getArticleByID = function (req, res) {
         }
         proxy.emit('classname', cl.name);
       });
+    }else{
+      proxy.emit('classname', '未分类');
     }
     //获取文章评论
     Comment.find({article_id: article_id}, function(err, comments){
