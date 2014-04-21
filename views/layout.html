@@ -47,6 +47,7 @@
 <div id="main">
   <%- body %>
 </div>
+<div id="backtotop"></div>
 <div id="footer" class="container">
   <footer class="col-md-offset-4">
     <p class="text-muted"><a href="https://github.com/brucewar" target="_blank">brucewar</a>&copy;2013 - <%= new Date().getFullYear()%></p>
@@ -58,6 +59,15 @@
       if($(this).attr('href') === location.pathname){
         $(this).parent().addClass('active');
       }
+    });
+
+    var $backtotop = $('#backtotop');
+    $backtotop.click(function(){
+      $('body,html').animate({scrollTop: 0});
+    });
+    $(window).scroll(function(){
+      var windowHeight = $(window).scrollTop();
+      windowHeight > 200 ? $backtotop.fadeIn() : $backtotop.fadeOut();
     });
   });
 </script>

@@ -1,8 +1,11 @@
-var Article = require('../models').Article,
-  ArticleClass = require('../models').ArticleClass;
+var models = require('../models');
+var Article = models.Article,
+  ArticleClass = models.ArticleClass,
+  Comment  = models.Comment;
 
 var validator = require('validator'),
-  utils = require('../libs/utils');
+  utils = require('../libs/utils'),
+  EventProxy = require('eventproxy');
 
 exports.showWrite = function(req, res){
   if(!req.session || !req.session.user){
@@ -145,20 +148,36 @@ exports.getArticleByID = function (req, res) {
     if (err) {
       return err;
     }
+    var render = function(className, comments){
+      article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
+      article.class_name = className;
+      res.render('article/index', {user: req.session.user, article: article, comments: comments});
+    };
+    var proxy = EventProxy.create('classname', 'comments', render);
+    proxy.fail(function(err){
+      if(err) return err;
+    });
 
-    article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
-    article.class_name = '未分类';
-    if(!article.class_id){
-      res.render('article/index', {article: article, user: req.session.user});
-      return;
+    //当文章有class_id时,获取文章分类名
+    if(article.class_id){
+      ArticleClass.findById(article.class_id, function(err, cl){
+        if(err) {
+          return err;
+        }
+        proxy.emit('classname', cl.name);
+      });
+    }else{
+      proxy.emit('classname', '未分类');
     }
-
-    ArticleClass.findById(article.class_id, function(err, cl){
+    //获取文章评论
+    Comment.find({article_id: article_id}, function(err, comments){
       if(err){
         return err;
       }
-      article.class_name = cl.name;
-      res.render('article/index', {article: article, user: req.session.user});
+      comments.forEach(function(comment){
+        comment.create_time = utils.formatDate(comment.time, 'yyyy-MM-dd hh:mm');
+      });
+      proxy.emit('comments', comments);
     });
   });
 };

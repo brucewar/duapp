@@ -6,6 +6,7 @@ var sign = require('./controllers/sign');
 var articleClass = require('./controllers/article_class');
 var article = require('./controllers/article');
 var project = require('./controllers/project');
+var comment = require('./controllers/comment');
 
 module.exports = function (app) {
 
@@ -40,4 +41,7 @@ module.exports = function (app) {
   app.post('/project/create', sign.requireLogin, project.create);
   app.post('/project/:pid/edit', sign.requireLogin, project.update);
   app.get('/project/:pid', project.getProjectByID);
+
+  //comment
+  app.post('/comment/create', comment.create);
 };

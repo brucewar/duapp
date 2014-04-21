@@ -1,3 +1,4 @@
+var crypto = require('crypto');
 /**
  * Format the date as you want.
  *
@@ -29,4 +30,11 @@ exports.formatDate = function (date, format) {
   formatStr = formatStr.replace(/s|S/g, date.getSeconds().toString());
   formatStr = formatStr.replace(/w|W/g, week[date.getDay()]);
   return formatStr;
+};
+
+exports.md5 = function(str){
+  var md5Hash = crypto.createHash('md5');
+  md5Hash.update(str);
+  str = md5Hash.digest('hex');
+  return str;
 };

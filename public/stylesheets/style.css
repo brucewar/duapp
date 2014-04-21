@@ -150,3 +150,23 @@ h3.title {
 a:hover {
     text-decoration: none;
 }
+
+#backtotop {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 38px;
+    height: 38px;
+    display: none;
+    cursor: pointer;
+    background: url('../img/top.png') no-repeat;
+}
+
+.media {
+    border-top: 1px solid rgb(240, 240, 240);
+}
+
+pre {
+    width: 50%;
+    background-color: rgba(71, 73, 73, 0.5);
+}
