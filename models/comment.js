@@ -8,6 +8,7 @@ var CommentSchema = new Schema({
   comment: String,
   site: String,
   time: {type: Date, default: Date.now},
+  gravatar: String,
   article_id: {type: ObjectId}
 });
 

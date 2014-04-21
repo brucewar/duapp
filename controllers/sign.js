@@ -1,5 +1,5 @@
 var validator = require('validator');
-var crypto = require('crypto');
+var utils = require('../libs/utils');
 var User = require('../models').User;
 
 exports.showLogin = function(req, res){
@@ -34,7 +34,7 @@ exports.register = function(req, res){
       return;
     }
     //new user
-    password = md5(password);
+    password = utils.md5(password);
     user = new User({
       user_name: userName,
       password: password
@@ -68,7 +68,7 @@ exports.login = function(req, res){
       return;
     }
 
-    password = md5(password);
+    password = utils.md5(password);
     if(user.password !== password){
       res.render('sign/login', {error: '密码不正确!'});
       return;
@@ -91,10 +91,3 @@ exports.requireLogin = function(req, res, next){
   res.locals({user: req.session.user});
   next();
 };
-
-function md5(str){
-  var md5Hash = crypto.createHash('md5');
-  md5Hash.update(str);
-  str = md5Hash.digest('hex');
-  return str;
-}
