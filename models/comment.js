@@ -9,7 +9,8 @@ var CommentSchema = new Schema({
   site: String,
   time: {type: Date, default: Date.now},
   gravatar: String,
-  article_id: {type: ObjectId}
+  article_id: {type: ObjectId},
+  comment_id: {type: ObjectId}
 });
 
 mongoose.model('Comment', CommentSchema);

@@ -5,6 +5,7 @@ var validator = require('validator'),
 
 exports.create = function(req, res){
   var articleId = req.body.article_id,
+    commentId = req.body.comment_id,
     realName = validator.trim(req.body.real_name),
     email = validator.trim(req.body.email),
     site = validator.trim(req.body.site || ''),
@@ -38,6 +39,10 @@ exports.create = function(req, res){
     gravatar: gravatar,
     article_id: articleId
   });
+
+  if(commentId !== ''){
+    newComment.comment_id = commentId
+  }
 
   newComment.save(function(err, comment){
     if(err){
