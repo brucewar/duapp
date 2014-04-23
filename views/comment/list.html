@@ -1,26 +1,38 @@
-<% if(locals.comments && comments.length != 0) { %>
+<% if(locals.ret && ret.comments.length != 0) { %>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <div class="panel-title"><%= comments.length %>条评论</div>
+    <div class="panel-title"><%= ret.comments.length %>条评论</div>
   </div>
-  <div class="inner no-padding">
-    <% comments.forEach(function(comment){ %>
-    <div class="media">
-      <a class="pull-left" href="#">
-        <img class="media-object" src="<%= comment.gravatar %>">
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading text-muted "><a href="<%= comment.site %>" rel="nofollow"><%= comment.name %></a>于<%= comment.create_time %>说道:</h4>
-        <div class="comment"><%= comment.comment %></div>
-      </div>
-    </div>
-    <% }); %>
+  <div id="comment_list" class="inner no-padding">
+    <% function createTree(ret){ %>
+      <% if(ret.comments){ %>
+        <% var i = -1, len = ret.comments.length; %>
+        <% while(++i < len){ %>
+          <div class="media" id="<%= ret.comments[i]._id %>">
+            <a class="pull-left">
+              <img class="media-object" src="<%= ret.comments[i].gravatar %>">
+            </a>
+            <div class="media-body">
+              <div class="media-heading text-muted ">
+                <a href="<%= ret.comments[i].site %>" rel="nofollow"><%= ret.comments[i].name %></a>于<%= ret.comments[i].create_time %>说道:
+                <div class="btn btn-info btn-xs reply">回复</div>
+              </div>
+              <div class="comment"><%= ret.comments[i].comment %></div>
+              <% if(ret.comments[i].comments) { %>
+                <% createTree(ret.comments[i]); %>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
+      <% } %>
+    <% } %>
+    <% createTree(ret); %>
   </div>
 </div>
 <% } %>
-<div class="panel panel-default">
+<div id="create_comment" class="panel panel-default">
   <div class="panel-heading">
-    <div class="panel-title">发表评论</div>
+    <div class="panel-title">发表评论<strong id="cancel_reply" class="btn btn-info btn-xs sr-only">取消评论</strong></div>
   </div>
   <div class="panel-body">
     <form class="form-horizontal" role="form">
@@ -64,48 +76,3 @@
     </form>
   </div>
 </div>
-<script type="text/javascript">
-  $('#btn_preview').click(function(event) {
-    event.preventDefault();
-    var $comment = $('#comment');
-    $comment.addClass('sr-only');
-    $(this).addClass('sr-only');
-    $('#btn_modify').removeClass('sr-only');
-    var comment = $comment.val();
-    var html = marked(comment);
-    $('.preview').html(html);
-    prettyPrint();
-  });
-  $('#btn_modify').click(function() {
-    event.preventDefault();
-    var $comment = $('#comment');
-    $comment.removeClass('sr-only').focus();
-    $('.preview').html('');
-    $(this).addClass('sr-only');
-    $('#btn_preview').removeClass('sr-only');
-  });
-  $('#btn_submit').click(function(event){
-    event.preventDefault();
-    var realName = $('#real_name').val(),
-      email = $('#email').val(),
-      site = $('#site').val(),
-      comment = $('#comment').val();
-    var articleId = location.pathname.substr('/article/'.length);
-    var newComment = {
-      real_name: realName,
-      email: email,
-      site: site,
-      comment: comment,
-      article_id: articleId
-    };
-    $.post('/comment/create', newComment, function(data){
-      if(data.status == 'failed'){
-        var $alert = $('div.alert-danger');
-        $alert.find('strong').text(data.message);
-        $alert.removeClass('sr-only');
-      }else{
-        location.reload();
-      }
-    }, 'json');
-  });
-</script>

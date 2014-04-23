@@ -2,12 +2,12 @@ var mongoose = require('mongoose');
 var config = require('../config').config;
 
 var connect_string;
-//development
-//connect_string = config.local_db;
-
 //production
 connect_string = "mongodb://" + config.db.user_name + ":" + config.db.password + "@" +
   config.db.host + ":" + config.db.port + "/" + config.db.name;
+
+//development
+//connect_string = config.local_db;
 
 mongoose.connect(connect_string, function(err){
   if(err){

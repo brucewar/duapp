@@ -154,12 +154,12 @@ exports.getArticleByID = function (req, res) {
         return err;
       }
     });
-    var render = function(className, comments){
+    var render = function(className, ret){
       article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
       article.class_name = className;
-      res.render('article/index', {user: req.session.user, article: article, comments: comments});
+      res.render('article/index', {user: req.session.user, article: article, ret: ret});
     };
-    var proxy = EventProxy.create('classname', 'comments', render);
+    var proxy = EventProxy.create('classname', 'ret', render);
     proxy.fail(function(err){
       if(err) return err;
     });
@@ -175,15 +175,52 @@ exports.getArticleByID = function (req, res) {
     }else{
       proxy.emit('classname', '未分类');
     }
-    //获取文章评论
-    Comment.find({article_id: article_id}, function(err, comments){
+    //获取文章一级评论
+    Comment.find({article_id: article_id}, '', {sort: [['time', 'asc']]}, function(err, comments){
       if(err){
         return err;
       }
       comments.forEach(function(comment){
         comment.create_time = utils.formatDate(comment.time, 'yyyy-MM-dd hh:mm');
       });
-      proxy.emit('comments', comments);
+
+      //获得子评论的数组
+      var childComments = comments.filter(function(comment){
+        return comment.comment_id ? true : false;
+      });
+
+      //获得一级评论的数组
+      comments = comments.filter(function(comment){
+        return comment.comment_id ? false : true;
+      });
+
+      var ret = {
+        tree: 'root',
+        comments: comments
+      };
+
+      //构造评论树
+      function createTree(ret, comment){
+        if(ret.comments){
+          var i = -1;
+          var length = ret.comments.length;
+          while(++i < length){
+            if(comment.comment_id.toString() == ret.comments[i]._id.toString()){
+              if(ret.comments[i].comments == undefined){
+                ret.comments[i].comments = [];
+              }
+              ret.comments[i].comments.push(comment);
+              return;
+            }else{
+              createTree(ret.comments[i], comment);
+            }
+          }
+        }
+      }
+      childComments.forEach(function(comment){
+        createTree(ret, comment);
+      });
+      proxy.emit('ret', ret);
     });
   });
 };
