@@ -16,6 +16,14 @@ mongoose.connect(connect_string, function(err){
   }
 });
 
+db = mongoose.connection;
+db.on('error', function (err) {
+  db.close();
+});
+db.on('close', function () {
+  mongoose.connect(connect_string);
+});
+
 //models
 require('./user');
 require('./article_class');
