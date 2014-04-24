@@ -65,10 +65,25 @@ $('#btn_submit').click(function(event){
     }
   }, 'json');
 });
-$('#comment_list').find('div.reply').click(function(){
+var $commentList = $('#comment_list');
+$commentList.find('div.reply').click(function(){
   var $reply = $('#create_comment');
   $(this).parent().siblings('.comment').append($reply);
   $('#cancel_reply').removeClass('sr-only');
+});
+$commentList.find('div.delete').click(function(){
+  if(confirm('确定删除此条评论及其子评论吗?')){
+    var $parentComment = $(this).parent().parent().parent();
+    var commentIds = [];
+    commentIds.push($parentComment.attr('id'));
+    $parentComment.find('div.media').each(function(){
+      commentIds.push($(this).attr('id'));
+    });
+    $.post('/comment/delete', {comment_ids: commentIds}, function(data){
+      data.status == 'failed' ? alert('删除失败!') : alert('删除成功!');
+      location.reload();
+    }, 'json');
+  }
 });
 $('#cancel_reply').click(function(){
   var $reply = $('#create_comment');

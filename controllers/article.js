@@ -128,7 +128,6 @@ exports.deleteArticleByID = function (req, res) {
 exports.changeArticleClass = function (req, res) {
   var article_id = req.body.article_id;
   var class_id = req.body.class_id;
-  console.log(class_id);
   if(0 == class_id){
     class_id = '';
   }
@@ -154,12 +153,12 @@ exports.getArticleByID = function (req, res) {
         return err;
       }
     });
-    var render = function(className, ret){
+    var render = function(className, commentCount, ret){
       article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
       article.class_name = className;
-      res.render('article/index', {user: req.session.user, article: article, ret: ret});
+      res.render('article/index', {user: req.session.user, article: article, commentCount: commentCount, ret: ret});
     };
-    var proxy = EventProxy.create('classname', 'ret', render);
+    var proxy = EventProxy.create('classname', 'comment_count', 'ret', render);
     proxy.fail(function(err){
       if(err) return err;
     });
@@ -180,6 +179,7 @@ exports.getArticleByID = function (req, res) {
       if(err){
         return err;
       }
+      proxy.emit('comment_count', comments.length);
       comments.forEach(function(comment){
         comment.create_time = utils.formatDate(comment.time, 'yyyy-MM-dd hh:mm');
       });

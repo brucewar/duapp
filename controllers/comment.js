@@ -53,3 +53,14 @@ exports.create = function(req, res){
     res.json({status: 'success', comment: comment});
   });
 };
+
+exports.deleteComment = function(req, res){
+  var commentIds = req.body.comment_ids;
+  Comment.remove({_id: {$in: commentIds}}, function(err){
+    if(err){
+      res.json({status: 'failed'});
+      return err;
+    }
+    res.json({status: 'success'});
+  });
+};

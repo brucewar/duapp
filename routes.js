@@ -44,4 +44,5 @@ module.exports = function (app) {
 
   //comment
   app.post('/comment/create', comment.create);
+  app.post('/comment/delete', comment.deleteComment);
 };
