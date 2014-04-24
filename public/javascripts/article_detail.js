@@ -72,16 +72,18 @@ $commentList.find('div.reply').click(function(){
   $('#cancel_reply').removeClass('sr-only');
 });
 $commentList.find('div.delete').click(function(){
-  var $parentComment = $(this).parent().parent().parent();
-  var commentIds = [];
-  commentIds.push($parentComment.attr('id'));
-  $parentComment.find('div.media').each(function(){
-    commentIds.push($(this).attr('id'));
-  });
-  $.post('/comment/delete', {comment_ids: commentIds}, function(data){
-    data.status == 'failed' ? alert('删除失败!') : alert('删除成功!');
-    location.reload();
-  }, 'json');
+  if(confirm('确定删除此条评论及其子评论吗?')){
+    var $parentComment = $(this).parent().parent().parent();
+    var commentIds = [];
+    commentIds.push($parentComment.attr('id'));
+    $parentComment.find('div.media').each(function(){
+      commentIds.push($(this).attr('id'));
+    });
+    $.post('/comment/delete', {comment_ids: commentIds}, function(data){
+      data.status == 'failed' ? alert('删除失败!') : alert('删除成功!');
+      location.reload();
+    }, 'json');
+  }
 });
 $('#cancel_reply').click(function(){
   var $reply = $('#create_comment');
