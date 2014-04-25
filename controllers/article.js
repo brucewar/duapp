@@ -156,7 +156,13 @@ exports.getArticleByID = function (req, res) {
     var render = function(className, commentCount, ret){
       article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
       article.class_name = className;
-      res.render('article/index', {user: req.session.user, article: article, commentCount: commentCount, ret: ret});
+      res.render('article/index', {
+        user: req.session.user,
+        commentUser: req.session.comment,
+        article: article,
+        commentCount: commentCount,
+        ret: ret
+      });
     };
     var proxy = EventProxy.create('classname', 'comment_count', 'ret', render);
     proxy.fail(function(err){
