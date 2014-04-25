@@ -1,7 +1,9 @@
 var Comment = require('../models').Comment;
 
 var validator = require('validator'),
-  utils = require('../libs/utils');
+  utils = require('../libs/utils'),
+  mail = require('./email'),
+  config = require('../config').config;
 
 exports.create = function(req, res){
   var articleId = req.body.article_id,
@@ -50,7 +52,19 @@ exports.create = function(req, res){
       res.json({status: 'failed', message: error});
       return err;
     }
+    req.session.comment = comment;
     res.json({status: 'success', comment: comment});
+    if(!comment.comment_id){
+      //发送消息提示给博主
+      mail.sendReplyMail(config.email, comment)
+    }else {
+      Comment.findById(comment.comment_id, function(err, parentComment){
+        if(err){
+          return err;
+        }
+        mail.sendReplyMail(parentComment.email, comment);
+      });
+    }
   });
 };
 
