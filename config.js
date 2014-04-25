@@ -32,7 +32,7 @@ exports.config = {
     port: 25,
     auth: {
       user: 'brucewar@163.com',
-      pass: 'wjl8175803'
+      pass: 'brucewar'
     }
   }
 };
