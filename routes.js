@@ -7,6 +7,7 @@ var articleClass = require('./controllers/article_class');
 var article = require('./controllers/article');
 var project = require('./controllers/project');
 var comment = require('./controllers/comment');
+var search = require('./controllers/search');
 
 module.exports = function (app) {
 
@@ -45,4 +46,7 @@ module.exports = function (app) {
   //comment
   app.post('/comment/create', comment.create);
   app.post('/comment/delete', comment.deleteComment);
+
+  //search
+  app.get('/search', search.index);
 };
