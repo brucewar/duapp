@@ -8,7 +8,13 @@
   <meta name="robots" content="index follow"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
+  <% if(locals.article) { %>
+  <title><%= article.title %> - brucewar</title>
+  <% else if(locals.project) { %>
+  <title><%= project.name %> - brucewar</title>
+  <% else { %>
   <title>brucewar</title>
+  <% } %>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="/libs/bootstrap/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="/stylesheets/style.css"/>
