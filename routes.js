@@ -18,8 +18,8 @@ module.exports = function (app) {
   app.get('/about', site.showAbout);
 
   //sign
-  app.get('/register', sign.showRegister);
-  app.post('/register', sign.register);
+  //app.get('/register', sign.showRegister);
+  //app.post('/register', sign.register);
   app.get('/login', sign.showLogin);
   app.post('/login', sign.login);
   app.get('/logout', sign.logout);
