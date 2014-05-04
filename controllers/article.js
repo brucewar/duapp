@@ -147,12 +147,15 @@ exports.getArticleByID = function (req, res) {
     if (err) {
       return err;
     }
-    article.read_count++;
-    article.save(function(err){
-      if(err){
-        return err;
-      }
-    });
+    //filter spider read count
+    if(req.header('user-agent').indexOf('Googlebot') == -1 || req.header('user-agent').indexOf('Baiduspider') == -1){
+      article.read_count++;
+      article.save(function(err){
+        if(err){
+          return err;
+        }
+      });
+    }
     var render = function(className, commentCount, ret){
       article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
       article.class_name = className;

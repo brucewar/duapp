@@ -3,8 +3,7 @@ var config = require('../config').config;
 
 var connect_string;
 //production
-//connect_string = "mongodb://" + config.db.user_name + ":" + config.db.password + "@" +
-//  config.db.host + ":" + config.db.port + "/" + config.db.name;
+//connect_string = "mongodb://" + config.db.host + ":" + config.db.port + "/" + config.db.name;
 
 //development
 connect_string = config.local_db;

@@ -174,3 +174,11 @@ pre {
 .comment:hover {
     background-color: #eee;
 }
+
+.search {
+    margin-top: 4px;
+    height: 28px;
+    padding: 4px 5px 4px 22px;
+    background: white url('../img/search.png') no-repeat 4px 4px;
+    border: 0;
+}

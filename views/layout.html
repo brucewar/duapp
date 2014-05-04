@@ -2,13 +2,35 @@
 <html>
 <head>
   <meta charset="utf-8"/>
+  <meta name="description" content="The personal page of brucewar"/>
+  <meta name="keywords" content="brucewar,Node.js,Express,mongodb,personal page"/>
+  <meta name="authors" content="brucewar"/>
+  <meta name="robots" content="index follow"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="chinaz-site-verification" content="081e7651-48c6-4c2f-a569-99321685eab1" />
+  <meta name="baidu-site-verification" content="pKYoFX9dX9" />
+  <% if(locals.article) { %>
+  <title><%= article.title %> - brucewar</title>
+  <% } else if(locals.project) { %>
+  <title><%= project.name %> - brucewar</title>
+  <% } else { %>
   <title>brucewar</title>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="/libs/bootstrap/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="/stylesheets/style.css"/>
-  <script src="/libs/jquery/jquery-1.11.0.min.js"></script>
-  <script src="/libs/bootstrap/js/bootstrap.min.js"></script>
+  <% } %>
+  <link rel="icon" href="/public/favicon.ico" type="image/x-icon" />
+  <%- Loader('/public/stylesheets/index.min.css')
+    .css('/public/libs/bootstrap/css/bootstrap.min.css')
+    .css('/public/stylesheets/style.css')
+    .css('/public/libs/code-prettify/prettify.css')
+    .done(assets, '', true)
+  %>
+  <%- Loader('/public/index.min.js')
+    .js('/public/libs/jquery/jquery-1.11.0.min.js')
+    .js('/public/libs/bootstrap/js/bootstrap.min.js')
+    .js('/public/libs/code-prettify/prettify.js')
+    .js('/public/libs/marked.js')
+    .js('/public/javascripts/main.js')
+    .done(assets, '', true)
+  %>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -32,6 +54,9 @@
         <li><a href="/project">项目</a></li>
         <li><a href="/about">关于我</a></li>
       </ul>
+      <form class="navbar-form navbar-left" role="search" action="/search">
+        <input type="text" id="q" name="q" class="form-control search" placeholder="Search">
+      </form>
       <ul class="nav navbar-nav navbar-right">
         <% if(!locals.user) { %>
         <li><a href="/login">登录</a></li>
@@ -50,26 +75,9 @@
 <div id="backtotop"></div>
 <div id="footer" class="container">
   <footer class="col-md-offset-4">
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1000401923'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/z_stat.php%3Fid%3D1000401923%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
     <p class="text-muted"><a href="https://github.com/brucewar" target="_blank">brucewar</a>&copy;2013 - <%= new Date().getFullYear()%></p>
   </footer>
 </div>
-<script type="text/javascript">
-  $(function(){
-    $('#navbar').find('a').each(function(){
-      if($(this).attr('href') === location.pathname){
-        $(this).parent().addClass('active');
-      }
-    });
-
-    var $backtotop = $('#backtotop');
-    $backtotop.click(function(){
-      $('body,html').animate({scrollTop: 0});
-    });
-    $(window).scroll(function(){
-      var windowHeight = $(window).scrollTop();
-      windowHeight > 200 ? $backtotop.fadeIn() : $backtotop.fadeOut();
-    });
-  });
-</script>
 </body>
 </html>

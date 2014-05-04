@@ -20,7 +20,7 @@
   </div>
 </div>
 <!-- markdown editor -->
-<link rel="stylesheet" href="/libs/code-prettify/prettify.css"/>
-<script src="/libs/code-prettify/prettify.js"></script>
-<script src="/libs/marked.js"></script>
-<script src="/javascripts/project_detail.js"></script>
+<%- Loader('/public/project.min.js')
+  .js('/public/javascripts/project_detail.js')
+  .done(assets, '', true)
+%>
