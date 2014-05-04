@@ -7,7 +7,7 @@ exports.config = {
   name: "brucewar",
   email: 'wjl891014@gmail.com',
   version: "0.0.1",
-  host: "http://brucewar.duapp.com",
+  host: "brucewar.duapp.com",
   port: "18080",
   session_secret: "mypagebybrucewar",
   max_age: 3600000 * 24 * 30,

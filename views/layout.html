@@ -16,11 +16,21 @@
   <% } else { %>
   <title>brucewar</title>
   <% } %>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="/libs/bootstrap/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="/stylesheets/style.css"/>
-  <script src="/libs/jquery/jquery-1.11.0.min.js"></script>
-  <script src="/libs/bootstrap/js/bootstrap.min.js"></script>
+  <link rel="icon" href="/public/favicon.ico" type="image/x-icon" />
+  <%- Loader('/public/stylesheets/index.min.css')
+    .css('/public/libs/bootstrap/css/bootstrap.min.css')
+    .css('/public/stylesheets/style.css')
+    .css('/public/libs/code-prettify/prettify.css')
+    .done(assets, '', true)
+  %>
+  <%- Loader('/public/index.min.js')
+    .js('/public/libs/jquery/jquery-1.11.0.min.js')
+    .js('/public/libs/bootstrap/js/bootstrap.min.js')
+    .js('/public/libs/code-prettify/prettify.js')
+    .js('/public/libs/marked.js')
+    .js('/public/javascripts/main.js')
+    .done(assets, '', true)
+  %>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -69,23 +79,5 @@
     <p class="text-muted"><a href="https://github.com/brucewar" target="_blank">brucewar</a>&copy;2013 - <%= new Date().getFullYear()%></p>
   </footer>
 </div>
-<script type="text/javascript">
-  $(function(){
-    $('#navbar').find('a').each(function(){
-      if($(this).attr('href') === location.pathname){
-        $(this).parent().addClass('active');
-      }
-    });
-
-    var $backtotop = $('#backtotop');
-    $backtotop.click(function(){
-      $('body,html').animate({scrollTop: 0});
-    });
-    $(window).scroll(function(){
-      var windowHeight = $(window).scrollTop();
-      windowHeight > 200 ? $backtotop.fadeIn() : $backtotop.fadeOut();
-    });
-  });
-</script>
 </body>
 </html>

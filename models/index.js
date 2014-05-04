@@ -7,7 +7,7 @@ connect_string = "mongodb://" + config.db.user_name + ":" + config.db.password +
   config.db.host + ":" + config.db.port + "/" + config.db.name;
 
 //development
-//connect_string = config.local_db;
+connect_string = config.local_db;
 
 mongoose.connect(connect_string, function(err){
   if(err){

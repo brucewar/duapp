@@ -24,4 +24,19 @@ $(document).ready(function(){
     $(this).html(html);
   });
   prettyPrint();
+
+  $('#navbar').find('a').each(function(){
+    if($(this).attr('href') === location.pathname){
+      $(this).parent().addClass('active');
+    }
+  });
+
+  var $backtotop = $('#backtotop');
+  $backtotop.click(function(){
+    $('body,html').animate({scrollTop: 0});
+  });
+  $(window).scroll(function(){
+    var windowHeight = $(window).scrollTop();
+    windowHeight > 200 ? $backtotop.fadeIn() : $backtotop.fadeOut();
+  });
 });

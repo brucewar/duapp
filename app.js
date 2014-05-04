@@ -5,10 +5,12 @@
 var express = require('express'),
   http = require('http'),
   path = require('path'),
+  fs = require('fs'),
   ejs = require('ejs'),
   partials = require('express-partials'),
   config = require('./config').config,
-  routes = require('./routes');
+  routes = require('./routes'),
+  Loader = require('loader');
 var app = express();
 
 // all environments
@@ -16,6 +18,7 @@ app.set('port', config.port);
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.html', ejs.__express);
 app.set('view engine', 'html');
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(partials());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
@@ -38,7 +41,15 @@ app.configure('production', function(){
 
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+var asserts = {};
+
+assets = JSON.parse(fs.readFileSync(path.join(__dirname, 'assets.json')));
+
+app.locals({
+  config: config,
+  Loader: Loader,
+  asserts: asserts
+});
 
 routes(app);
 
