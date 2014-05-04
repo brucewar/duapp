@@ -148,7 +148,7 @@ exports.getArticleByID = function (req, res) {
       return err;
     }
     //filter spider read count
-    if(req.headers('user-agent').indexOf('Googlebot') == -1 || req.headers('user-agent').indexOf('Baiduspider') == -1){
+    if(req.header('user-agent').indexOf('Googlebot') == -1 || req.header('user-agent').indexOf('Baiduspider') == -1){
       article.read_count++;
       article.save(function(err){
         if(err){
