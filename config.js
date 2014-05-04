@@ -7,7 +7,7 @@ exports.config = {
   name: "brucewar",
   email: 'wjl891014@gmail.com',
   version: "0.0.1",
-  host: "brucewar.com",
+  host: "www.brucewar.com",
   port: "18080",
   session_secret: "mypagebybrucewar",
   max_age: 3600000 * 24 * 30,
@@ -18,7 +18,7 @@ exports.config = {
   db: {
     user_name: "",
     password: "",
-    host: "107.170.138.225",
+    host: "127.0.0.1",
     port: 27017,
     name: "mypage"
   },
