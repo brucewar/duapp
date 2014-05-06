@@ -22,7 +22,7 @@
     .css('/public/libs/bootstrap/css/bootstrap.min.css')
     .css('/public/stylesheets/style.css')
     .css('/public/libs/code-prettify/prettify.css')
-    .done(assets, '', true)
+    .done(assets, '', config.mini_assets)
   %>
   <%- Loader('/public/javascripts/index.min.js')
     .js('/public/libs/jquery/jquery-1.11.0.min.js')
@@ -30,7 +30,7 @@
     .js('/public/libs/code-prettify/prettify.js')
     .js('/public/libs/marked.js')
     .js('/public/javascripts/main.js')
-    .done(assets, '', true)
+    .done(assets, '', config.mini_assets)
   %>
 </head>
 <body>
