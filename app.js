@@ -41,14 +41,15 @@ app.configure('production', function(){
 
 });
 
-var asserts = {};
-
-assets = JSON.parse(fs.readFileSync(path.join(__dirname, 'assets.json')));
+var assets = {};
+if(config.mini_assets){
+  assets = JSON.parse(fs.readFileSync(path.join(__dirname, 'assets.json')));
+}
 
 app.locals({
   config: config,
   Loader: Loader,
-  asserts: asserts
+  assets: assets
 });
 
 routes(app);

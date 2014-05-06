@@ -190,4 +190,6 @@ pre {
 
 .navbar-brand {
     font-family: catull_BQ;
+    font-size: 25px;
+    font-weight: bolder;
 }
