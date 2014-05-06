@@ -182,3 +182,12 @@ pre {
     background: white url('../img/search.png') no-repeat 4px 4px;
     border: 0;
 }
+
+@font-face {
+    font-family: catull_BQ;
+    src: url('../fonts/catull_BQ.ttf');
+}
+
+.navbar-brand {
+    font-family: catull_BQ;
+}
