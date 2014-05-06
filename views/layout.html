@@ -22,15 +22,15 @@
     .css('/public/libs/bootstrap/css/bootstrap.min.css')
     .css('/public/stylesheets/style.css')
     .css('/public/libs/code-prettify/prettify.css')
-    .done(assets, '', true)
+    .done(assets, '', config.mini_assets)
   %>
-  <%- Loader('/public/index.min.js')
+  <%- Loader('/public/javascripts/index.min.js')
     .js('/public/libs/jquery/jquery-1.11.0.min.js')
     .js('/public/libs/bootstrap/js/bootstrap.min.js')
     .js('/public/libs/code-prettify/prettify.js')
     .js('/public/libs/marked.js')
     .js('/public/javascripts/main.js')
-    .done(assets, '', true)
+    .done(assets, '', config.mini_assets)
   %>
 </head>
 <body>
@@ -44,7 +44,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">brucewar</a>
+      <a class="navbar-brand" href="/">brucewar</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

@@ -20,7 +20,7 @@
   </div>
 </div>
 <!-- markdown editor -->
-<%- Loader('/public/project.min.js')
+<%- Loader('/public/javascripts/project.min.js')
   .js('/public/javascripts/project_detail.js')
-  .done(assets, '', true)
+  .done(assets, '', config.mini_assets)
 %>

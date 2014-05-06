@@ -34,5 +34,7 @@ exports.config = {
       user: 'brucewar@163.com',
       pass: 'brucewar'
     }
-  }
+  },
+
+  mini_assets: false
 };
