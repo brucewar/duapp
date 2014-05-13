@@ -36,5 +36,6 @@ exports.config = {
     }
   },
 
-  mini_assets: false
+  mini_assets: false,
+  wb_app_key: 3733524788
 };
