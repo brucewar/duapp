@@ -147,8 +147,9 @@ exports.getArticleByID = function (req, res) {
     if (err) {
       return err;
     }
-    //filter spider read count
-    if(req.header('user-agent').indexOf('Googlebot') == -1 || req.header('user-agent').indexOf('Baiduspider') == -1){
+    //filter spider and author read count
+    var userAgent = req.header('user-agent');
+    if(userAgent.indexOf('Googlebot') == -1 || userAgent.indexOf('Baiduspider') == -1 && !req.session.user){
       article.read_count++;
       article.save(function(err){
         if(err){

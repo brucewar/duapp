@@ -1,5 +1,5 @@
 duapp
 =====
-This application is my personal HomePage which is disposed in duapp.
+This application is my personal HomePage which is deployed on DigitalOcean.
 
-[brucewar.duapp.com](http://brucewar.duapp.com)
+[www.brucewar.com](http://www.brucewar.com)
