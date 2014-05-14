@@ -557,8 +557,6 @@ var GameLayer = cc.Layer.extend({
   gameOver: function () {
     this.setTouchEnabled(false);
     this.menu.setTouchEnabled(false);
-    this.returnButton.setTouchEnabled(false);
-    this.refreshButton.setTouchEnabled(false);
     this.resultLayer = cc.LayerColor.create(cc.c4(64, 64, 64, 200), size.width, size.height);
     this.resultSprite = cc.Sprite.create(s_Cry);
     this.resultSprite.setPosition(cc.p(size.width / 2, size.height / 2));
