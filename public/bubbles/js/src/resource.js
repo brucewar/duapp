@@ -2,6 +2,7 @@ var s_0 = "./js/res/0.png";
 var s_1 = "./js/res/1.png";
 var s_2 = "./js/res/2.png";
 var s_3 = "./js/res/3.png";
+var s_4 = "./js/res/4.png";
 var s_back = "./js/res/bubble_background.png";
 
 var s_ButtonReturnDown = "./js/res/return_down.png";
@@ -16,12 +17,15 @@ var s_StoneRemove = "./js/res/stone_remove.plist";
 
 var s_StoneRemoveSound = "./js/res/btn_bubble.ogg";
 
+var s_Cry = "./js/res/cry.png";
+
 var g_ressources = [
   //image
   {src: s_0},
   {src: s_1},
   {src: s_2},
   {src: s_3},
+  {src: s_4},
   {src: s_ButtonReturnDown},
   {src: s_ButtonReturnUp},
   {src: s_ButtonRefreshDown},
@@ -31,7 +35,8 @@ var g_ressources = [
 
   {src: s_Stars},
   {src: s_StoneRemove},
-  {src: s_StoneRemoveSound}
+  {src: s_StoneRemoveSound},
+  {src: s_Cry}
   //plist
 
   //fnt

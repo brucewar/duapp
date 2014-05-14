@@ -10,7 +10,8 @@ var STATE_PREPARE = 0;
 var STATE_PLAYING = 1;
 var STATE_FINISHED = 2;
 
-var INIT_SCORE = 30000;
+var INIT_SCORE = 1000;
+var SCORE_STEP = 2000;
 
 var topScore = "";
 var topScorePlayer = "";
@@ -119,12 +120,6 @@ var GameLayer = cc.Layer.extend({
       this.firstWidth = (size.width - COL * this.stoneWidth - blank * (COL + 1)) / 2;
     }
 
-//    // prepare font
-//    var isIOS = browser.versions.ios;
-//    if (true == isIOS || "true" == isIOS) {
-//      FONT_TYPE = "Futura-CondensedExtraBold";
-//    }
-
     //
     for (var i = 0; i < 5; i++) {
       var path;
@@ -161,7 +156,7 @@ var GameLayer = cc.Layer.extend({
     this.backgroundImg = cc.Sprite.create(s_back);
     this.backgroundImg.setScaleX(bgWScale);
     this.backgroundImg.setScaleY(bgHScale);
-    this.backgroundImg.setAnchorPoint(0.5, 0.5);
+    this.backgroundImg.setAnchorPoint(0, 0);
     this.backgroundImg.setPosition(cc.p(0, 0));
     this.addChild(this.backgroundImg, 0);
 
@@ -257,7 +252,7 @@ var GameLayer = cc.Layer.extend({
   resetGame: function (event) {
     this.level = 1;
     this.requireScore = INIT_SCORE;
-    this.score = initScore;
+    this.score = 0;
     this.lblLevel.setString("LEVEL " + this.level);
     this.lblScore.setString(this.score + "/" + this.requireScore);
     this.index = 0;
@@ -340,11 +335,12 @@ var GameLayer = cc.Layer.extend({
   removeConnectedSprite: function (connected) {
     if (connected.length >= 2) {
       var currentScore;
-      if (this.stoneModel.stoneArray[connected[0].x][connected[0].y] == 4) {
-        currentScore = connected.length * connected.length * 10;
-      } else {
-        currentScore = connected.length * connected.length * 5;
-      }
+//      if (this.stoneModel.stoneArray[connected[0].x][connected[0].y] == 4) {
+//        currentScore = connected.length * connected.length * 10;
+//      } else {
+//        currentScore = connected.length * connected.length * 5;
+//      }
+      currentScore = connected.length * connected.length * 5;
       this.score += currentScore;
 
       //removed score action
@@ -370,7 +366,7 @@ var GameLayer = cc.Layer.extend({
         var y = connected[i].y;
 
         //remove stones effect
-        var particle = cc.ParticleSystem.create("../res/stone_remove.plist");
+        var particle = cc.ParticleSystem.create(s_StoneRemove);
         var positionX = this.sprites[connected[i].x][y].getPosition().x + this.stoneWidth / 2;
         var positionY = this.sprites[connected[i].x][y].getPosition().y + this.stoneWidth / 2;
         particle.setPosition(cc.p(positionX, positionY));
@@ -473,9 +469,9 @@ var GameLayer = cc.Layer.extend({
         var fadeOut3 = cc.FadeOut.create(0.2);
         var fadeCallFun = cc.CallFunc.create(function () {
           if (this.level < 6) {
-            this.requireScore += 2500;
+            this.requireScore += SCORE_STEP;
           } else {
-            this.requireScore += 2500 + 500 * (this.level - 5);
+            this.requireScore += SCORE_STEP + 500 * (this.level - 5);
           }
           var nextLblLevel = cc.LabelTTF.create("LEVEL " + this.level, FONT_TYPE, 20);
           nextLblLevel.setPosition(cc.p(size.width + nextLblLevel.getContentSize().width / 2,
@@ -532,7 +528,7 @@ var GameLayer = cc.Layer.extend({
           var callFun = cc.CallFunc.create(function (sprite) {
             sprite.setVisible(false);
             this.soundEffect.playEffect(s_StoneRemoveSound, false);
-            var particle = cc.ParticleSystem.create("../res/stone_remove.plist");
+            var particle = cc.ParticleSystem.create(s_StoneRemove);
             var positionX = sprite.getPosition().x + this.stoneWidth / 2;
             var positionY = sprite.getPosition().y + this.stoneWidth / 2;
             particle.setPosition(cc.p(positionX, positionY));
@@ -559,37 +555,18 @@ var GameLayer = cc.Layer.extend({
   },
 
   gameOver: function () {
+    this.setTouchEnabled(false);
+    this.menu.setTouchEnabled(false);
+    this.returnButton.setTouchEnabled(false);
+    this.refreshButton.setTouchEnabled(false);
     this.resultLayer = cc.LayerColor.create(cc.c4(64, 64, 64, 200), size.width, size.height);
-    // process this image
-    // phase 1, for those which are in shape of square
-    //this.resultSprite.setAnchorPoint(cc.p(0, 0));
-    var scaleParam;
-    var imgWidth = this.resultSprite.getContentSize().width;
-    var imgHeight = this.resultSprite.getContentSize().height;
-    var frameWidth = size.width / 10 * 8;
-    var frameHeight = frameWidth / 2;
-    var drawWidth, drawHeight;
-    var imgRatio = imgWidth / imgHeight;
-    if (imgRatio > 2) {
-      drawWidth = frameWidth;
-      drawHeight = drawWidth / imgRatio;
-      scaleParam = drawWidth / imgWidth;
-    } else {
-      drawHeight = frameHeight;
-      drawWidth = drawHeight * imgRatio;
-      scaleParam = drawHeight / imgHeight;
-    }
-    var realWidth = this.resultSprite.getContentSize().width * scaleParam;
-    var realHeight = this.resultSprite.getContentSize().height * scaleParam;
-    console.log('result sprite scale = ' + scaleParam);
+    this.resultSprite = cc.Sprite.create(s_Cry);
+    this.resultSprite.setPosition(cc.p(size.width / 2, size.height / 2));
     this.resultSprite.setAnchorPoint(cc.p(0.5, 0));
-    this.resultSprite.setPosition(cc.p(size.width / 2, size.height - realHeight - 10));
-    this.resultSprite.setScale(scaleParam, scaleParam);
     this.resultText = cc.LabelTTF.create('遗憾，没达到本关分数要求哦~', FONT_TYPE, 16);
     this.resultText.setColor(cc.c4b(200, 200, 200, 252));
-    this.resultText.setPosition(cc.p(size.width / 2, this.resultSprite.getPosition().y - 20));
+    this.resultText.setPosition(cc.p(size.width / 2, size.height / 2 - 20));
 
-    this.resultLayer.addChild(this.resultSprite);
     this.resultLayer.addChild(this.resultText);
     this.resultLayer.setAnchorPoint(cc.p(0, 0));
     this.resultLayer.setPosition(cc.p(size.width, 0));
@@ -598,7 +575,6 @@ var GameLayer = cc.Layer.extend({
     var moveLeft = cc.MoveTo.create(1, cc.p(0, 0));
     var sequence = cc.Sequence.create(delay, moveLeft);
     this.resultLayer.runAction(sequence);
-
     this.gameState = STATE_FINISHED;
   },
 
