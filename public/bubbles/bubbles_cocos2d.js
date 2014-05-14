@@ -19,7 +19,7 @@
     renderMode: 0, //Choose of RenderMode: 0(default), 1(Canvas only), 2(WebGL only)
     tag: 'gameCanvas', //the dom element to run cocos2d on
     //engineDir:'./cocos2d/',
-    SingleEngineFile: '../libs/cocos2d-html5/cocos2d-html5.min.js',
+    SingleEngineFile: '../libs/cocos2d-html5/Cocos2d-html5.min.js',
     appFiles: [
       './js/src/resource.js',
       './js/src/stone_model.js',
