@@ -63,7 +63,7 @@
         <li><a href="/login">登录</a></li>
         <!--<li><a href="/register">注册</a></li>-->
         <% } else { %>
-        <li><a href="#" class="navbar-link"><%= locals.user.user_name %></a></li>
+        <li><a href="/changePassword" class="navbar-link"><%= locals.user.user_name %></a></li>
         <li><a href="/logout">退出</a></li>
         <% } %>
       </ul>
