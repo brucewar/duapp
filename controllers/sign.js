@@ -73,22 +73,22 @@ exports.login = function(req, res){
       res.render('sign/login', {error: '密码不正确!'});
       return;
     }
-    req.session.user = user;
+    req.session.userName = userName;
     res.redirect('/');
   });
 };
 
 exports.logout = function(req, res){
-  req.session.user = null;
+  req.session.userName = null;
   res.redirect('/');
 };
 
 exports.requireLogin = function(req, res, next){
-  if(!req.session.user){
+  if(!req.session.userName){
     res.redirect('/login');
     return;
   }
-  res.locals({user: req.session.user});
+  res.locals({userName: req.session.userName});
   next();
 };
 
@@ -109,22 +109,23 @@ exports.changePassword = function(req, res){
     return;
   }
 
-  oldPassword = utils.md5(oldPassword);
-  if(oldPassword !== req.session.user.password){
-    res.render('sign/change_password', {error: '原密码不正确!'});
-    return;
-  }
-
   if(newPassword !== repeatPassword){
     res.render('sign/change_password', {error: '两次新密码输入不一致!'});
     return;
   }
 
-  newPassword = utils.md5(newPassword);
-  User.findOneAndUpdate({user_name: req.session.user.user_name}, {$set: {password: newPassword}}, function(err){
-    if(err){
-      return err;
+  oldPassword = utils.md5(oldPassword);
+  User.findOne(function(err, user){
+    if(err) return err;
+    if(oldPassword !== user.password){
+      res.render('sign/change_password', {error: '原密码不正确!'});
+    }else{
+      newPassword = utils.md5(newPassword);
+      user.password = newPassword;
+      user.save(function(err){
+        if(err) return err;
+        res.render('sign/change_password', {success: '密码修改成功!'});
+      });
     }
-    res.render('sign/change_password', {success: '密码修改成功!'});
   });
 };
