@@ -8,7 +8,7 @@ var validator = require('validator'),
   EventProxy = require('eventproxy');
 
 exports.showWrite = function(req, res){
-  if(!req.session || !req.session.user){
+  if(!req.session || !req.session.userName){
     res.redirect('/login');
     return;
   }
@@ -149,7 +149,7 @@ exports.getArticleByID = function (req, res) {
     }
     //filter spider and author read count
     var userAgent = req.header('user-agent');
-    if(!req.session.user && (userAgent.indexOf('Googlebot') == -1 || userAgent.indexOf('Baiduspider') == -1)){
+    if(!req.session.userName && (userAgent.indexOf('Googlebot') == -1 || userAgent.indexOf('Baiduspider') == -1)){
       article.read_count++;
       article.save(function(err){
         if(err){
@@ -161,7 +161,7 @@ exports.getArticleByID = function (req, res) {
       article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
       article.class_name = className;
       res.render('article/index', {
-        user: req.session.user,
+        userName: req.session.userName,
         commentUser: req.session.comment,
         article: article,
         commentCount: commentCount,

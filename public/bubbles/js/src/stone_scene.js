@@ -565,6 +565,7 @@ var GameLayer = cc.Layer.extend({
     this.resultText.setColor(cc.c4b(200, 200, 200, 252));
     this.resultText.setPosition(cc.p(size.width / 2, size.height / 2 - 20));
 
+    this.resultLayer.addChild(this.resultSprite);
     this.resultLayer.addChild(this.resultText);
     this.resultLayer.setAnchorPoint(cc.p(0, 0));
     this.resultLayer.setPosition(cc.p(size.width, 0));

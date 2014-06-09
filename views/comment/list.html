@@ -16,7 +16,7 @@
               <div class="media-heading text-muted ">
                 <a href="<%= ret.comments[i].site %>" rel="nofollow"><%= ret.comments[i].name %></a>于<%= ret.comments[i].create_time %>说道:
                 <div class="btn btn-info btn-xs reply">回复</div>
-                <% if(locals.user) { %>
+                <% if(locals.userName) { %>
                 <div class="btn btn-warning btn-xs delete">删除</div>
                 <% } %>
               </div>

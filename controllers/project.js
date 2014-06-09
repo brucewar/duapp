@@ -90,6 +90,6 @@ exports.getProjectByID = function(req, res){
     if(err){
       return err;
     }
-    res.render('project/index', {project: project, user: req.session.user});
+    res.render('project/index', {project: project, userName: req.session.userName});
   });
 };
