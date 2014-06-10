@@ -12,7 +12,7 @@ exports.index = function(req, res){
   var latest = 5;
   var options = {limit: latest, sort: [['time', 'desc']]};
   var render = function(articles){
-    res.render('index', {user: req.session.user, articles: articles});
+    res.render('index', {userName: req.session.userName, articles: articles});
   };
 
   var proxy = EventProxy.create('articles', render);
@@ -57,7 +57,7 @@ exports.showArticleContent = function(req, res){
 
   var render = function(noClassCount, classes, articles, pages){
     res.render('content', {
-      user: req.session.user,
+      userName: req.session.userName,
       class_id: classId,
       noClass_count: noClassCount,
       classes: classes,
@@ -174,10 +174,10 @@ exports.showProjectList = function(req, res){
       project.start_time = utils.formatDate(project.time, 'yyyy-MM');
       project.detail = project.detail ? project.detail.substr(0, 20) : '';
     });
-    res.render('project', {user: req.session.user, projects: projects});
+    res.render('project', {userName: req.session.userName, projects: projects});
   });
 };
 
 exports.showAbout = function(req, res){
-  res.render('about', {user: req.session.user});
+  res.render('about', {userName: req.session.userName});
 };

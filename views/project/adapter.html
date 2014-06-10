@@ -1,7 +1,7 @@
 <% if(!locals.projects || projects.length == 0) { %>
 <li class="list-group-item">暂无项目</li>
 <% } else { %>
-  <% if(locals.user) { %>
+  <% if(locals.userName) { %>
     <% projects.forEach(function(project){ %>
       <li class="list-group-item">
         <div class="panel panel-info">
