@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-3">
-      <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="200">
+      <ul id="about-content" class="nav nav-pills nav-stacked">
         <li class="active"><a href="#basic_info">基本资料</a></li>
         <li><a href="#education_background">教育背景</a></li>
         <li><a href="#professional_skill">专业技能</a></li>
@@ -137,5 +137,16 @@
 //        }
 //      });
 //    });
+    var $titles = $('h3.title');
+    $(window).scroll(function(event){
+      event.getTarget();
+      $titles.each(function(){
+        if($(this).offset().top == 0){
+          var $contentTitle = $('#' + $(this).attr('id'));
+          $contentTitle.addClass('active').siblings('li.active').removeClass('active');
+          return false;
+        }
+      });
+    });
   });
 </script>
