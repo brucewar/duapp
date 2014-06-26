@@ -7,13 +7,14 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "mongoose": "~3.6.14",
     "ejs": "~1.0.0",
+    "eventproxy": "~0.3.1",
     "express": "~3.5.1",
     "express-partials": "~0.2.0",
-    "validator": "~3.7.0",
-    "eventproxy": "~0.3.1",
+    "loader": "~0.1.2",
+    "marked": "^0.3.2",
+    "mongoose": "~3.6.14",
     "nodemailer": "~0.6.3",
-    "loader": "~0.1.2"
+    "validator": "~3.7.0"
   }
 }
