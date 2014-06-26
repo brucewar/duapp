@@ -17,12 +17,6 @@ marked.setOptions({
 });
 
 $(document).ready(function(){
-  $('#article').find('div.content').each(function(){
-    var content = $(this).html();
-    content = content.replace(/^\s+|\s+$/g, '');
-    var html = marked(content);
-    $(this).html(html);
-  });
   prettyPrint();
 
   $('#navbar').find('a').each(function(){

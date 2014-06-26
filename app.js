@@ -10,7 +10,7 @@ var express = require('express'),
   partials = require('express-partials'),
   config = require('./config').config,
   routes = require('./routes'),
-	marked = require('marked'),
+  utils = require('./libs/utils');
   Loader = require('loader');
 var app = express();
 
@@ -42,23 +42,6 @@ app.configure('production', function(){
 
 });
 
-var renderer = new marked.Renderer();
-renderer.code = function(code, lang) {
-  var ret = '<pre class="prettyprint language-' + lang + '">';
-  ret+= '<code>' + code + '</code>';
-  ret+= '</pre>';
-  return ret;
-};
-marked.setOptions({
-  renderer: renderer,
-  gfm: true,
-  tables: true,
-  breaks: true,
-  pedantic: false,
-  sanitize: false,
-  smartLists: true
-});
-
 var assets = {};
 if(config.mini_assets){
   assets = JSON.parse(fs.readFileSync(path.join(__dirname, 'assets.json')));
@@ -68,7 +51,7 @@ app.locals({
   config: config,
   Loader: Loader,
   assets: assets,
-	marked: marked
+	markdown: utils.markdown 
 });
 
 routes(app);

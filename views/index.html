@@ -8,7 +8,7 @@
             <div class="cell">
               <a class="title" href="/article/<%= article._id %>"><%= article.title %></a>
               <hr>
-              <div class="content"><%= article.content %></div>
+              <div class="content"><%- markdown(article.content) %></div>
               <div>
                 <div class="pull-left time">
                   写于<%= article.create_time %>&nbsp;属于分类:

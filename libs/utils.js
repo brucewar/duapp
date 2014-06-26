@@ -1,4 +1,5 @@
 var crypto = require('crypto');
+var marked = require('marked');
 /**
  * Format the date as you want.
  *
@@ -38,3 +39,22 @@ exports.md5 = function(str){
   str = md5Hash.digest('hex');
   return str;
 };
+
+var renderer = new marked.Renderer();
+renderer.code = function(code, lang) {
+  var ret = '<pre class="prettyprint language-' + lang + '">';
+  ret+= '<code>' + code + '</code>';
+  ret+= '</pre>';
+  return ret;
+};
+marked.setOptions({
+  renderer: renderer,
+  gfm: true,
+  tables: true,
+  breaks: true,
+  pedantic: false,
+  sanitize: false,
+  smartLists: true
+});
+
+exports.markdown = marked;
