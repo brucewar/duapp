@@ -6,7 +6,7 @@ exports.config = {
   //page info
   name: "brucewar",
   email: 'wjl891014@gmail.com',
-  version: "0.0.1",
+  version: "0.1.0",
   host: "www.brucewar.com",
   port: "80",
   session_secret: "mypagebybrucewar",

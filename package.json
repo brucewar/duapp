@@ -1,8 +1,9 @@
 {
   "name": "duapp",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "brucewar",
   "description": "This is my personal page deployed in BAE.",
+  "repository": "http://github.com/brucewar/duapp",
   "scripts": {
     "start": "node app.js"
   },
