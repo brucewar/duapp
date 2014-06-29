@@ -10,7 +10,7 @@
           </div>
         </div>
         <div id="article_content" class="inner no-padding">
-          <%= article.content %>
+          <%- markdown(article.content) %>
         </div>
         <div class="panel-footer">
           <span class="pull-left">阅读：<%= article.read_count %>次</span>

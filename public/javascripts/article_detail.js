@@ -92,11 +92,6 @@ $('#cancel_reply').click(function(){
 });
 
 $(document).ready(function(){
-  var $content = $('#article_content');
-  var content = $content.html();
-  content = content.replace(/^\s+|\s+$/g, '');
-  var html = marked(content);
-  $content.html(html);
   $('div.comment').each(function(){
     var comment = $(this).html();
     $(this).html(marked(comment));
