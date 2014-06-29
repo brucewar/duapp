@@ -1,20 +1,3 @@
-// configure marked
-var renderer = new marked.Renderer();
-renderer.code = function(code, lang) {
-  var ret = '<pre class="prettyprint language-' + lang + '">';
-  ret+= '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>';
-  ret+= '</pre>';
-  return ret;
-};
-marked.setOptions({
-  renderer: renderer,
-  gfm: true,
-  tables: true,
-  breaks: true,
-  pedantic: false,
-  sanitize: false,
-  smartLists: true
-});
 $('#btn_preview').click(function(event) {
   event.preventDefault();
   var $editor = $('#editor');
