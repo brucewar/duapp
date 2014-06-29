@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div id="about-content" class="col-md-3 col-sm-3">
+    <div id="about-content" class="col-md-3">
       <ul class="nav nav-pills nav-stacked">
         <li class="active">
           <a href="#basic_info">基本资料</a>
@@ -142,13 +142,17 @@
   $(function(){
     //固定左侧导航栏
     var $aboutContent = $('#about-content');
+    var position = $aboutContent.position();
     var $detail = $('#detail');
     var offsetTop = $aboutContent.offset().top;
     $(window).scroll(function(){
       var scrollTop = $(document).scrollTop();
       if(scrollTop >= offsetTop){
         $detail.addClass('col-md-offset-3').addClass('col-sm-offset-3');
-        $aboutContent.css('position', 'fixed');
+        $aboutContent.css({
+          'position': 'fixed',
+          'width': '18%'
+        });
       }
     });
 
