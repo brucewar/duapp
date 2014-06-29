@@ -20,7 +20,7 @@
                 <div class="btn btn-warning btn-xs delete">删除</div>
                 <% } %>
               </div>
-              <div class="comment"><%= ret.comments[i].comment %></div>
+              <div class="comment"><%- markdown(ret.comments[i].comment) %></div>
               <% if(ret.comments[i].comments) { %>
                 <% createTree(ret.comments[i]); %>
               <% } %>

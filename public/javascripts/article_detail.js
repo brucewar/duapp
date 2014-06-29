@@ -2,7 +2,7 @@
 var renderer = new marked.Renderer();
 renderer.code = function(code, lang) {
   var ret = '<pre class="prettyprint language-' + lang + '">';
-  ret+= '<code>' + code + '</code>';
+  ret+= '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>';
   ret+= '</pre>';
   return ret;
 };
@@ -92,9 +92,5 @@ $('#cancel_reply').click(function(){
 });
 
 $(document).ready(function(){
-  $('div.comment').each(function(){
-    var comment = $(this).html();
-    $(this).html(marked(comment));
-  });
   prettyPrint();
 });
