@@ -8,19 +8,19 @@ var connect_string;
 //development
 connect_string = config.local_db;
 
-mongoose.connect(connect_string, function(err){
-  if(err){
-    console.error("Connect to %s error: ", connect_string, err.message);
-    process.exit(1);
-  }
+mongoose.connect(connect_string, function(err) {
+	if (err) {
+		console.error("Connect to %s error: ", connect_string, err.message);
+		process.exit(1);
+	}
 });
 
 db = mongoose.connection;
-db.on('error', function (err) {
-  db.close();
+db.on('error', function(err) {
+	db.close();
 });
-db.on('close', function () {
-  mongoose.connect(connect_string);
+db.on('close', function() {
+	mongoose.connect(connect_string);
 });
 
 //models
@@ -29,9 +29,11 @@ require('./article_class');
 require('./article');
 require('./project');
 require('./comment');
+require('./blogroll');
 
 exports.User = mongoose.model('User');
 exports.ArticleClass = mongoose.model('ArticleClass');
 exports.Article = mongoose.model('Article');
 exports.Project = mongoose.model('Project');
 exports.Comment = mongoose.model('Comment');
+exports.Blogroll = mongoose.model('Blogroll');
