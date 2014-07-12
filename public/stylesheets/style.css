@@ -7,7 +7,7 @@ body {
     margin-bottom: 100px;
 }
 
-ol {
+ol.markdown {
     list-style: none;
     margin: 4px 0px;
 }
