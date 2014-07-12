@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var BlogrollSchema = new Schema({
-	name: String,
+	webmaster: String,
 	domain: String
 });
 

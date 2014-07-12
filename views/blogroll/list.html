@@ -1,8 +1,8 @@
 <div class="container">
-	<div class="row">
+	<div class="row" id="blogroll_list">
 		<div class="col-md-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">友链管理</div>
+				<div class="panel-heading">友链管理<a class="btn-link pull-right add">添加<span class="glyphicon glyphicon-plus"></span></a></div>
 				<div class="table-responsive">
 					<% if(locals.blogrolls && blogrolls.length > 0) { %>
 						<table class="table table-striped table-hover">
@@ -13,10 +13,10 @@
 							</thead>
 							<tbody>
 								<% for(var i = 0, len = blogrolls.length; i < len; i++) { %>
-								<tr>
-									<td><%= blogrolls[i].name %></td>
-									<td><%= blogrolls[i].domain %></td>
-									<td><a class="btn btn-link"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-link"><span class="glyphicon glyphicon-remove-circle"></span></a></td>
+								<tr data="<%= blogrolls[i]._id %>">
+									<td class="webmaster"><%= blogrolls[i].webmaster %></td>
+									<td class="domain"><%= blogrolls[i].domain %></td>
+									<td><a class="btn btn-link edit"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-link delete"><span class="glyphicon glyphicon-remove-circle"></span></a></td>
 								</tr>
 								<% } %>
 							</tbody>
@@ -39,13 +39,13 @@
 			      		<div class="form-group">
 							    <label for="webmaster" class="col-sm-2 control-label">站长</label>
 							    <div class="col-sm-10">
-							      <input type="text" class="form-control" id="webmaster" name="webmaster" placeholder="brucewar">
+							      <input type="text" class="form-control" id="webmaster" name="webmaster" placeholder="brucewar" />
 							    </div>
 							  </div>
 							  <div class="form-group">
 							    <label for="domain" class="col-sm-2 control-label">域名</label>
 							    <div class="col-sm-10">
-							      <input type="text" class="form-control" id="domain" name="domain" placeholder="http://www.brucewar.com">
+							      <input type="text" class="form-control" id="domain" name="domain" placeholder="http://www.brucewar.com" />
 							    </div>
 							  </div>
 			      	</form>
@@ -78,3 +78,7 @@
 		</div>
 	</div>
 </div>
+<%- Loader('/public/javascripts/blogroll_list.min.js')
+  .js('/public/javascripts/manage_blogroll.js')
+  .done(assets, '', config.mini_assets)
+%>

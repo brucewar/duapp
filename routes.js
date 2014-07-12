@@ -8,8 +8,9 @@ var article = require('./controllers/article');
 var project = require('./controllers/project');
 var comment = require('./controllers/comment');
 var search = require('./controllers/search');
+var blogroll = require('./controllers/blogroll');
 
-module.exports = function (app) {
+module.exports = function(app) {
 
   //page
   app.get('/', site.index);
@@ -51,4 +52,10 @@ module.exports = function (app) {
 
   //search
   app.get('/search', search.index);
+
+  //blogroll
+  app.get('/blogroll', sign.requireLogin, blogroll.getAll);
+  app.post('/blogroll/add', blogroll.add);
+  app.post('/blogroll/update', blogroll.updateById);
+  app.get('/blogroll/delete', blogroll.deleteById);
 };

@@ -3,30 +3,34 @@ var models = require('../models'),
 var validator = require('validator');
 
 exports.add = function(req, res) {
-	var name = validator.trim(req.body.name);
+	var webmaster = validator.trim(req.body.webmaster);
 	var domain = validator.trim(req.body.domain);
 
-	var error = '';
-	if ('' == name || '' == domain) {
-		error = '站长名或域名不能为空!';
-		res.render('blogroll/index', {
-			name: name,
-			domain: domain,
-			error: error
+	var msg = '';
+	if ('' == webmaster || '' == domain) {
+		msg = '站长名或域名不能为空!';
+		res.json({
+			status: 'failed',
+			msg: msg
 		});
 		return;
 	}
 	var newBlogroll = new Blogroll({
-		name: name,
+		webmaster: webmaster,
 		domain: domain
 	});
 
 	newBlogroll.save(function(err) {
 		if (err) {
+			res.json({
+				status: 'failed',
+				msg: '添加失败!'
+			});
 			return err;
 		}
-		res.render('blogroll/index', {
-			success: '添加成功!'
+		res.json({
+			status: 'success',
+			msg: '添加成功!'
 		});
 	});
 };
@@ -43,42 +47,53 @@ exports.getAll = function(req, res) {
 };
 
 exports.deleteById = function(req, res) {
-	var id = req.body.id;
-	Blogroll.findByIdAndRemove(function(err) {
-			if (err) {
-				res.json({
-					status: 'failed'
-				});
-				return err;
-			}
-			res.json({
-					status: 'success');
-			});
-	};
-
-	exports.updateById = function(req, res) {
-		var name = validator.trim(req.body.name);
-		var domain = validator.trim(req.body.domain);
-
-		var error = '';
-		if ('' == name || '' == domain) {
-			error = '站长名或域名不能为空!';
+	var blogrollId = req.query.blogroll_id;
+	Blogroll.findByIdAndRemove(blogrollId, function(err) {
+		if (err) {
 			res.json({
 				status: 'failed',
-				msg: error
+				msg: '删除失败!'
 			});
-			return;
+			return err;
 		}
-
-		Blogroll.findByIdAndUpdate(function(err) {
-			if (err) {
-				res.json({
-					status: 'failed'
-				});
-				return err;
-			}
-			res.json({
-				status: 'success'
-			});
+		res.json({
+			status: 'success',
+			msg: '删除成功!'
 		});
+	});
+};
+
+exports.updateById = function(req, res) {
+	var blogrollId = req.body.blogroll_id;
+	var webmaster = validator.trim(req.body.webmaster);
+	var domain = validator.trim(req.body.domain);
+
+	var error = '';
+	if ('' == webmaster || '' == domain) {
+		error = '站长名或域名不能为空!';
+		res.json({
+			status: 'failed',
+			msg: error
+		});
+		return;
+	}
+
+	var update = {
+		webmaster: webmaster,
+		domain: domain
 	};
+
+	Blogroll.findByIdAndUpdate(blogrollId, {$set: update}, function(err) {
+		if (err) {
+			res.json({
+				status: 'failed',
+				msg: '更新失败!'
+			});
+			return err;
+		}
+		res.json({
+			status: 'success',
+			msg: '更新成功!'
+		});
+	});
+};
