@@ -2,7 +2,7 @@
 	<div class="row" id="blogroll_list">
 		<div class="col-md-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">友链管理<a class="btn-link pull-right add">添加<span class="glyphicon glyphicon-plus"></span></a></div>
+				<div class="panel-heading">友链管理<a class="btn btn-link btn-xs pull-right add">添加<span class="glyphicon glyphicon-plus"></span></a></div>
 				<div class="table-responsive">
 					<% if(locals.blogrolls && blogrolls.length > 0) { %>
 						<table class="table table-striped table-hover">
@@ -15,8 +15,8 @@
 								<% for(var i = 0, len = blogrolls.length; i < len; i++) { %>
 								<tr data="<%= blogrolls[i]._id %>">
 									<td class="webmaster"><%= blogrolls[i].webmaster %></td>
-									<td class="domain"><%= blogrolls[i].domain %></td>
-									<td><a class="btn btn-link edit"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-link delete"><span class="glyphicon glyphicon-remove-circle"></span></a></td>
+									<td class="domain"><a href="<%= blogrolls[i].domain %>" target="_blank"><%= blogrolls[i].domain %></a></td>
+									<td><a class="btn btn-link btn-xs edit"><span class="glyphicon glyphicon-edit"></span></a><a class="btn btn-link btn-xs delete"><span class="glyphicon glyphicon-remove-circle"></span></a></td>
 								</tr>
 								<% } %>
 							</tbody>
