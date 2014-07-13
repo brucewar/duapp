@@ -1,0 +1,20 @@
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">友情链接
+				<% if(locals.userName) { %>
+				<a class="btn btn-link btn-xs pull-right" href="/blogroll">管理<span class="glyphicon glyphicon-cog"></span></a>
+				<% } %>
+			</div>
+			<div class="panel-body">
+				<ul>
+					<% if(locals.blogrolls) { %>
+						<% for(var i = 0, len = blogrolls.length; i < len; i++) { %>
+						<li><a href="<%= blogrolls[i].domain %>" target="_blank"><%= blogrolls[i].webmaster %></a></li>
+						<% } %>
+					<% } %>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
