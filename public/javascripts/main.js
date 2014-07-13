@@ -1,9 +1,9 @@
 // configure marked for all pages
 var renderer = new marked.Renderer();
 renderer.code = function(code, lang) {
-  var ret = '<pre class="prettyprint language-' + lang + '">';
+  var ret = '<div class="row"><div class="col-md-8 col-sm-12"><pre class="prettyprint language-' + lang + '">';
   ret+= '<code>' + code.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</code>';
-  ret+= '</pre>';
+  ret+= '</pre></div></div>';
   return ret;
 };
 marked.setOptions({
