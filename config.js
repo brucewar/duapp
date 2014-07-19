@@ -13,6 +13,7 @@ exports.config = {
   max_age: 3600000 * 24 * 30,
 
   page_limit: 10,
+  recent_limit: 5,
 
   //db info
   db: {

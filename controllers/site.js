@@ -10,22 +10,23 @@ var utils = require('../libs/utils'),
   config = require('../config').config;
 
 exports.index = function(req, res) {
-  var latest = 5;
   var options = {
-    limit: latest,
+    limit: config.recent_limit,
     sort: [
       ['time', 'desc']
     ]
   };
-  var render = function(articles, blogrolls) {
+  var render = function(articles, comments, blogrolls) {
+    console.log(comments);
     res.render('index', {
       userName: req.session.userName,
       articles: articles,
+      comments: comments,
       blogrolls: blogrolls
     });
   };
 
-  var proxy = EventProxy.create('articles', 'blogrolls', render);
+  var proxy = EventProxy.create('articles', 'new_comments', 'blogrolls', render);
   proxy.fail(function(err) {
     if (err) {
       return err;
@@ -61,6 +62,16 @@ exports.index = function(req, res) {
         article_id: articles[j]._id
       }, commentProxy.group('comment_count'));
     }
+  });
+
+  //获取最新5跳评论
+  Comment.find({}, null, options, function(err, comments) {
+    if (0 < comments.length) {
+      for (var i = 0, len = comments.length; i < len; i++) {
+        comments[i].create_time = utils.formatDate(comments[i].time, 'yyyy-MM-dd');
+      }
+    }
+    proxy.emit('new_comments', comments);
   });
 
   //获取友情链接

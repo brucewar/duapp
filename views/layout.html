@@ -60,7 +60,7 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         <% if(!locals.userName) { %>
-        <li><a href="/login">登录</a></li>
+        <li><a href="/login"><span class="glyphicon glyphicon-user"></span>登录</a></li>
         <!--<li><a href="/register">注册</a></li>-->
         <% } else { %>
         <li><a href="/changePassword" class="navbar-link"><%= locals.userName %></a></li>
