@@ -17,7 +17,6 @@ exports.index = function(req, res) {
     ]
   };
   var render = function(articles, comments, blogrolls) {
-    console.log(comments);
     res.render('index', {
       userName: req.session.userName,
       articles: articles,
@@ -64,7 +63,7 @@ exports.index = function(req, res) {
     }
   });
 
-  //获取最新5跳评论
+  //获取最新评论
   Comment.find({}, null, options, function(err, comments) {
     if (0 < comments.length) {
       for (var i = 0, len = comments.length; i < len; i++) {
