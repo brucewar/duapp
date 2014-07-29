@@ -3,9 +3,14 @@ var Comment = require('../models').Comment;
 var validator = require('validator'),
   utils = require('../libs/utils'),
   mail = require('./email'),
-  config = require('../config').config;
+  config = require('../config').config,
+  fs = require('fs'),
+  Log = require('log');
 
-exports.create = function(req, res){
+var stream = fs.createWriteStream('../logs/' + utils.formatDate('YYYYMMDD') + '.log');
+var log = new Log(config.log_level, stream);
+
+exports.create = function(req, res) {
   var articleId = req.body.article_id,
     commentId = req.body.comment_id,
     realName = validator.trim(req.body.real_name),
@@ -14,21 +19,30 @@ exports.create = function(req, res){
     comment = validator.trim(req.body.comment);
 
   var error = '';
-  if('' == realName || '' == email){
+  if ('' == realName || '' == email) {
     error = '姓名或者邮箱不能为空!';
-    res.json({status: 'failed', message: error});
+    res.json({
+      status: 'failed',
+      message: error
+    });
     return;
   }
 
-  if(!validator.isEmail(email)){
+  if (!validator.isEmail(email)) {
     error = '邮箱格式不正确!';
-    res.json({status: 'failed', message: error});
+    res.json({
+      status: 'failed',
+      message: error
+    });
     return;
   }
 
-  if('' == comment){
+  if ('' == comment) {
     error = '评论内容不能为空!';
-    res.json({status: 'failed', message: error});
+    res.json({
+      status: 'failed',
+      message: error
+    });
     return;
   }
 
@@ -42,24 +56,32 @@ exports.create = function(req, res){
     article_id: articleId
   });
 
-  if(commentId !== ''){
+  if (commentId !== '') {
     newComment.comment_id = commentId
   }
 
-  newComment.save(function(err, comment){
-    if(err){
+  newComment.save(function(err, comment) {
+    if (err) {
       error = '评论失败!';
-      res.json({status: 'failed', message: error});
-      return err;
+      log.error('%s comments %s failed with comment: %s', realName, articleId, comment);
+      res.json({
+        status: 'failed',
+        message: error
+      });
+      return;
     }
     req.session.comment = comment;
-    res.json({status: 'success', comment: comment});
-    if(!comment.comment_id){
+    res.json({
+      status: 'success',
+      comment: comment
+    });
+    if (!comment.comment_id) {
       //发送消息提示给博主
       mail.sendReplyMail(config.email, comment)
-    }else {
-      Comment.findById(comment.comment_id, function(err, parentComment){
-        if(err){
+    } else {
+      Comment.findById(comment.comment_id, function(err, parentComment) {
+        if (err) {
+          log.error('get parentComment failed with comment_id %s', comment.comment_id);
           return err;
         }
         mail.sendReplyMail(parentComment.email, comment);
@@ -68,13 +90,18 @@ exports.create = function(req, res){
   });
 };
 
-exports.deleteComment = function(req, res){
+exports.deleteComment = function(req, res) {
   var commentIds = req.body.comment_ids;
-  Comment.remove({_id: {$in: commentIds}}, function(err){
-    if(err){
-      res.json({status: 'failed'});
-      return err;
+  Comment.remove({_id: {$in: commentIds}}, function(err) {
+    if (err) {
+      log.error('delete comments failed with commentIds: ' + commentIds);
+      res.json({
+        status: 'failed'
+      });
+      return;
     }
-    res.json({status: 'success'});
+    res.json({
+      status: 'success'
+    });
   });
 };

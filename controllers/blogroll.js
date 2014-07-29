@@ -1,6 +1,13 @@
 var models = require('../models'),
 	Blogroll = models.Blogroll;
-var validator = require('validator');
+var validator = require('validator'),
+	config = require('../config').config,
+	fs = require('fs'),
+	utils = require('../libs/utils'),
+	Log = require('log');
+
+var stream = fs.createWriteStream('../logs/' + utils.formatDate('YYYYMMDD') + '.log');
+var log = new Log(config.log_level, stream);
 
 exports.add = function(req, res) {
 	var webmaster = validator.trim(req.body.webmaster);
@@ -22,11 +29,12 @@ exports.add = function(req, res) {
 
 	newBlogroll.save(function(err) {
 		if (err) {
+			log.error('add new blogroll failed');
 			res.json({
 				status: 'failed',
 				msg: '添加失败!'
 			});
-			return err;
+			return;
 		}
 		res.json({
 			status: 'success',
@@ -38,7 +46,8 @@ exports.add = function(req, res) {
 exports.getAll = function(req, res) {
 	Blogroll.find(function(err, blogrolls) {
 		if (err) {
-			return err;
+			log.error('get all blogrolls failed');
+			return;
 		}
 		res.render('blogroll/list', {
 			blogrolls: blogrolls
@@ -50,11 +59,12 @@ exports.deleteById = function(req, res) {
 	var blogrollId = req.query.blogroll_id;
 	Blogroll.findByIdAndRemove(blogrollId, function(err) {
 		if (err) {
+			log.error('delete blogroll failed with blogrollId: ' + blogrollId);
 			res.json({
 				status: 'failed',
 				msg: '删除失败!'
 			});
-			return err;
+			return;
 		}
 		res.json({
 			status: 'success',
@@ -85,11 +95,12 @@ exports.updateById = function(req, res) {
 
 	Blogroll.findByIdAndUpdate(blogrollId, {$set: update}, function(err) {
 		if (err) {
+			log.error('update blogroll failed with blogrollId: ' + blogrollId);
 			res.json({
 				status: 'failed',
 				msg: '更新失败!'
 			});
-			return err;
+			return;
 		}
 		res.json({
 			status: 'success',

@@ -7,7 +7,12 @@ var ArticleClass = models.ArticleClass,
 
 var utils = require('../libs/utils'),
   EventProxy = require('eventproxy'),
-  config = require('../config').config;
+  config = require('../config').config,
+  fs = require('fs'),
+  Log = require('log');
+
+var stream = fs.createWriteStream('../logs/' + utils.formatDate('YYYYMMDD') + '.log');
+var log = new Log(config.log_level, stream);
 
 exports.index = function(req, res) {
   var options = {
@@ -28,7 +33,8 @@ exports.index = function(req, res) {
   var proxy = EventProxy.create('articles', 'new_comments', 'blogrolls', render);
   proxy.fail(function(err) {
     if (err) {
-      return err;
+      log.error('get data for home page error: ' + err);
+      return;
     }
   });
 
@@ -44,9 +50,7 @@ exports.index = function(req, res) {
       }
     });
     for (var i = 0, len = articles.length; i < len; i++) {
-      ArticleClass.findOne({
-        _id: articles[i].class_id
-      }, classProxy.group('class'));
+      ArticleClass.findOne({_id: articles[i].class_id}, classProxy.group('class'));
     }
     //取评论数
     var commentProxy = new EventProxy();
@@ -57,9 +61,7 @@ exports.index = function(req, res) {
       proxy.emit('articles', articles);
     });
     for (var j = 0; j < len; j++) {
-      Comment.count({
-        article_id: articles[j]._id
-      }, commentProxy.group('comment_count'));
+      Comment.count({article_id: articles[j]._id}, commentProxy.group('comment_count'));
     }
   });
 
@@ -100,7 +102,8 @@ exports.showArticleContent = function(req, res) {
   var proxy = EventProxy.create('noClassCount', 'classes', 'articles', 'pages', render);
   proxy.fail(function(err) {
     if (err) {
-      return err;
+      log.error('get data for article content view error: ' + err);
+      return;
     }
   });
 
@@ -109,6 +112,7 @@ exports.showArticleContent = function(req, res) {
     case undefined:
       Article.count(function(err, count) {
         if (err) {
+          log.error('get the count of artilces error.');
           return err;
         }
         var pages = Math.ceil(count / limit);
@@ -116,22 +120,20 @@ exports.showArticleContent = function(req, res) {
       });
       break;
     case '0':
-      Article.count({
-        class_id: undefined
-      }, function(err, count) {
+      Article.count({class_id: undefined}, function(err, count) {
         if (err) {
-          return err;
+          log.error('get the count of unclassified articles error.');
+          return;
         }
         var pages = Math.ceil(count / limit);
         proxy.emit('pages', pages);
       });
       break;
     default:
-      Article.count({
-        class_id: classId
-      }, function(err, count) {
+      Article.count({class_id: classId}, function(err, count) {
         if (err) {
-          return err;
+          log.error('get the count of articles with class_id' + classId);
+          return;
         }
         var pages = Math.ceil(count / limit);
         proxy.emit('pages', pages);
@@ -140,14 +142,13 @@ exports.showArticleContent = function(req, res) {
   }
 
   //获取未分类博文篇数
-  Article.count({
-    class_id: undefined
-  }, proxy.done('noClassCount'));
+  Article.count({class_id: undefined}, proxy.done('noClassCount'));
 
   //获取分类信息
   ArticleClass.find(function(err, classes) {
     if (err) {
-      return err;
+      log.error('get classes error: ' + err);
+      return;
     }
     var classProxy = new EventProxy();
     classProxy.after('count', classes.length, function(counts) {
@@ -158,9 +159,7 @@ exports.showArticleContent = function(req, res) {
     });
 
     for (var i = 0, len = classes.length; i < len; i++) {
-      Article.count({
-        class_id: classes[i]._id
-      }, classProxy.group('count'));
+      Article.count({class_id: classes[i]._id}, classProxy.group('count'));
     }
   });
 
@@ -176,7 +175,8 @@ exports.showArticleContent = function(req, res) {
     case undefined:
       Article.find({}, null, options, function(err, articles) {
         if (err) {
-          return err;
+          log.error('get all articles error: ' + err);
+          return;
         }
         articles.forEach(function(article) {
           article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
@@ -185,11 +185,10 @@ exports.showArticleContent = function(req, res) {
       });
       break;
     case '0':
-      Article.find({
-        class_id: undefined
-      }, null, options, function(err, articles) {
+      Article.find({class_id: undefined}, null, options, function(err, articles) {
         if (err) {
-          return err;
+          log.error('get unclassified articles error: ' + err);
+          return;
         }
         articles.forEach(function(article) {
           article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
@@ -198,11 +197,10 @@ exports.showArticleContent = function(req, res) {
       });
       break;
     default:
-      Article.find({
-        class_id: classId
-      }, null, options, function(err, articles) {
+      Article.find({class_id: classId}, null, options, function(err, articles) {
         if (err) {
-          return err;
+          log.error('get articles with class_id: ' + classId);
+          return;
         }
         articles.forEach(function(article) {
           article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
@@ -216,7 +214,8 @@ exports.showArticleContent = function(req, res) {
 exports.showProjectList = function(req, res) {
   Project.find(function(err, projects) {
     if (err) {
-      return err;
+      log.error('get all projects error: ' + error);
+      return;
     }
     projects.forEach(function(project) {
       project.start_time = utils.formatDate(project.time, 'yyyy-MM');

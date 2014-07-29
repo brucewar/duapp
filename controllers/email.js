@@ -1,6 +1,12 @@
 var nodemailer = require('nodemailer');
-var config = require('../config').config;
 var util = require('util');
+var config = require('../config').config,
+  utils = require('../libs/utils'),
+  fs = require('fs'),
+  Log = require('log');
+
+var stream = fs.createWriteStream('../logs/' + utils.formatDate('YYYYMMDD') + '.log');
+var log = new Log(config.log_level, stream);
 
 var transport = nodemailer.createTransport('SMTP', config.mail_opts);
 
@@ -9,7 +15,9 @@ var sendMail = function (data) {
   transport.sendMail(data, function (err) {
     if (err) {
       // 写为日志
-      console.log(err);
+      log.error('failed to send email to %s', data.to);
+    }else {
+      log.info('%s sends email to %s', data.from, data.to);
     }
   });
 };
@@ -23,7 +31,7 @@ exports.sendReplyMail = function (who, comment) {
     <p> \
       <a href="' + comment.site + '">' + comment.name + '</a> \
       在我的博文 ' + '<a href="' + url + '">' + url + '</a> \
-      中回复了你: \
+      中回复了您: \
     </p> \
     <hr/> \
     <p>若您没有在' + config.name + '主页发表过任何评论信息，说明有人滥用了您的电子邮箱，请删除此邮件，我对给您造成的打扰感到抱歉。</p>';

@@ -37,6 +37,9 @@ exports.config = {
     }
   },
 
+  //log level
+  log_level: 'debug',
+
   mini_assets: false,
   wb_app_key: 3733524788
 };

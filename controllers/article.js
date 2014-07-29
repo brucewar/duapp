@@ -7,7 +7,12 @@ var Article = models.Article,
 var validator = require('validator'),
   utils = require('../libs/utils'),
   config = require('../config').config,
+  fs = require('fs'),
+  Log = require('log'),
   EventProxy = require('eventproxy');
+
+var stream = fs.createWriteStream('../logs/' + utils.formatDate('YYYYMMDD') + '.log');
+var log = new Log(config.log_level, stream);
 
 exports.showWrite = function(req, res) {
   if (!req.session || !req.session.userName) {
@@ -16,7 +21,8 @@ exports.showWrite = function(req, res) {
   }
   ArticleClass.find(function(err, classes) {
     if (err) {
-      return err;
+      log.error('get ArticleClasses failed');
+      return;
     }
     res.render('article/edit', {
       classes: classes
@@ -35,7 +41,8 @@ exports.write = function(req, res) {
   if (error) {
     ArticleClass.find(function(err, classes) {
       if (err) {
-        return err;
+        log.error('get ArticleClasses failed');
+        return;
       }
       res.render('article/edit', {
         classes: classes,
@@ -54,7 +61,8 @@ exports.write = function(req, res) {
     }
     article.save(function(err, article) {
       if (err) {
-        return err;
+        log.error('write new article failed');
+        return;
       }
       res.redirect('/article/' + article._id + '/edit');
     });
@@ -66,11 +74,13 @@ exports.showEdit = function(req, res) {
 
   Article.findById(articleId, function(err, article) {
     if (err) {
-      return err;
+      log.error('get article by articleId %s failed', articleId);
+      return;
     }
     ArticleClass.find(function(err, classes) {
       if (err) {
-        return err;
+        log.error('get ArticleClasses failed');
+        return;
       }
       res.render('article/edit', {
         article_id: article._id,
@@ -96,7 +106,8 @@ exports.update = function(req, res) {
   if (error) {
     ArticleClass.find(function(err, classes) {
       if (err) {
-        return err;
+        log.error('get ArticleClasses failed');
+        return;
       }
       res.render('article/edit', {
         classes: classes,
@@ -114,11 +125,10 @@ exports.update = function(req, res) {
     if (0 != classId) {
       update.class_id = classId;
     }
-    Article.findByIdAndUpdate(article_id, {
-      $set: update
-    }, function(err) {
+    Article.findByIdAndUpdate(article_id, {$set: update}, function(err) {
       if (err) {
-        return err;
+        log.error('update article failed with articleId: ' + articleId);
+        return;
       }
       res.redirect('/article/' + article_id + '/edit');
     });
@@ -129,10 +139,11 @@ exports.deleteArticleByID = function(req, res) {
   var article_id = req.body.article_id;
   Article.findByIdAndRemove(article_id, function(err) {
     if (err) {
+      log.error('delete article by articleId %s failed', article_id);
       res.json({
         status: 'failed'
       });
-      return err;
+      return;
     }
     res.json({
       status: 'success'
@@ -146,16 +157,13 @@ exports.changeArticleClass = function(req, res) {
   if (0 == class_id) {
     class_id = '';
   }
-  Article.findByIdAndUpdate(article_id, {
-    $set: {
-      class_id: class_id
-    }
-  }, function(err) {
+  Article.findByIdAndUpdate(article_id, {$set: {class_id: class_id}}, function(err) {
     if (err) {
+      log.error('change article class failed with article_id: ' + article_id);
       res.json({
         status: 'failed'
       });
-      return err;
+      return;
     }
     res.json({
       status: 'success'
@@ -174,7 +182,8 @@ exports.getArticleByID = function(req, res) {
 
   Article.findById(article_id, function(err, article) {
     if (err) {
-      return err;
+      log.error('get article by id %s failed', article_id);
+      return;
     }
     //filter spider and author read count
     var userAgent = req.header('user-agent');
@@ -182,7 +191,8 @@ exports.getArticleByID = function(req, res) {
       article.read_count++;
       article.save(function(err) {
         if (err) {
-          return err;
+          log.error('update article read_count failed');
+          return;
         }
       });
     }
@@ -202,14 +212,17 @@ exports.getArticleByID = function(req, res) {
     };
     var proxy = EventProxy.create('classname', 'comment_count', 'ret', 'new_articles', 'new_comments', 'blogrolls', render);
     proxy.fail(function(err) {
-      if (err) return err;
+      if (err) {
+        log.error('get info for article index view failed');
+      }
     });
 
     //当文章有class_id时,获取文章分类名
     if (article.class_id) {
       ArticleClass.findById(article.class_id, function(err, cl) {
         if (err) {
-          return err;
+          log.error('get ArticleClass name failed with classId ' + article.class_id);
+          return;
         }
         proxy.emit('classname', cl.name);
       });
@@ -219,7 +232,8 @@ exports.getArticleByID = function(req, res) {
     //获取文章一级评论
     Comment.find({article_id: article_id}, '', {sort: [['time', 'asc']]}, function(err, comments) {
       if (err) {
-        return err;
+        log.error('get comment failed with articleId ' + article_id);
+        return;
       }
       proxy.emit('comment_count', comments.length);
       comments.forEach(function(comment) {
