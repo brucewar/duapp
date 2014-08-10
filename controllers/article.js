@@ -11,7 +11,7 @@ var validator = require('validator'),
   Log = require('log'),
   EventProxy = require('eventproxy');
 
-var stream = fs.createWriteStream('../logs/' + utils.formatDate('YYYYMMDD') + '.log');
+var stream = fs.createWriteStream('./logs/' + utils.formatDate('YYYYMMDD') + '.log');
 var log = new Log(config.log_level, stream);
 
 exports.showWrite = function(req, res) {

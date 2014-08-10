@@ -6,7 +6,7 @@ var validator = require('validator'),
 	utils = require('../libs/utils'),
 	Log = require('log');
 
-var stream = fs.createWriteStream('../logs/' + utils.formatDate('YYYYMMDD') + '.log');
+var stream = fs.createWriteStream('./logs/' + utils.formatDate('YYYYMMDD') + '.log');
 var log = new Log(config.log_level, stream);
 
 exports.add = function(req, res) {

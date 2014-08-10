@@ -8,3 +8,4 @@ assets.json
 *.min.*.css
 *.min.*.js
 nohup.out
+logs/

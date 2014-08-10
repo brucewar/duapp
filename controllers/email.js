@@ -5,7 +5,7 @@ var config = require('../config').config,
   fs = require('fs'),
   Log = require('log');
 
-var stream = fs.createWriteStream('../logs/' + utils.formatDate('YYYYMMDD') + '.log');
+var stream = fs.createWriteStream('./logs/' + utils.formatDate('YYYYMMDD') + '.log');
 var log = new Log(config.log_level, stream);
 
 var transport = nodemailer.createTransport('SMTP', config.mail_opts);
