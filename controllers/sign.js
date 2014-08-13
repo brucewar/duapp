@@ -1,12 +1,7 @@
 var validator = require('validator'),
   utils = require('../libs/utils'),
   User = require('../models').User,
-  config = require('../config').config,
-  fs = require('fs'),
-  Log = require('log');
-
-var stream = fs.createWriteStream('./logs/' + utils.formatDate('YYYYMMDD') + '.log');
-var log = new Log(config.log_level, stream);
+  log = require('../libs/log');
 
 exports.showLogin = function(req, res) {
   res.render('sign/login');

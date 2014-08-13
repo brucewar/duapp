@@ -1,13 +1,7 @@
 var models = require('../models'),
 	Blogroll = models.Blogroll;
 var validator = require('validator'),
-	config = require('../config').config,
-	fs = require('fs'),
-	utils = require('../libs/utils'),
-	Log = require('log');
-
-var stream = fs.createWriteStream('./logs/' + utils.formatDate('YYYYMMDD') + '.log');
-var log = new Log(config.log_level, stream);
+	log = require('../libs/log');
 
 exports.add = function(req, res) {
 	var webmaster = validator.trim(req.body.webmaster);

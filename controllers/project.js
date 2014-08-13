@@ -1,13 +1,7 @@
 var Project = require('../models').Project;
 
 var validator = require('validator'),
-  config = require('../config').config,
-  utils = require('../libs/utils'),
-  fs = require('fs'),
-  Log = require('log');
-
-var stream = fs.createWriteStream('./logs/' + utils.formatDate('YYYYMMDD') + '.log');
-var log = new Log(config.log_level, stream);
+  log = require('../libs/log');
 
 exports.showCreate = function(req, res) {
   res.render('project/edit');

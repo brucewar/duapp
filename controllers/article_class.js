@@ -1,13 +1,7 @@
 var ArticleClass = require('../models').ArticleClass;
 var Article = require('../models').Article;
 
-var config = require('../config').config,
-  utils = require('../libs/utils'),
-  fs = require('fs'),
-  Log = require('log');
-
-var stream = fs.createWriteStream('./logs/' + utils.formatDate('YYYYMMDD') + '.log');
-var log = new Log(config.log_level, stream);
+var log = require('../libs/log');
 
 exports.saveClassesChange = function (req, res) {
   var classes = req.body.classes;

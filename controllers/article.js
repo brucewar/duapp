@@ -7,12 +7,8 @@ var Article = models.Article,
 var validator = require('validator'),
   utils = require('../libs/utils'),
   config = require('../config').config,
-  fs = require('fs'),
-  Log = require('log'),
+  log = require('../libs/log'),
   EventProxy = require('eventproxy');
-
-var stream = fs.createWriteStream('./logs/' + utils.formatDate('YYYYMMDD') + '.log');
-var log = new Log(config.log_level, stream);
 
 exports.showWrite = function(req, res) {
   if (!req.session || !req.session.userName) {

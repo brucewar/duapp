@@ -4,11 +4,7 @@ var validator = require('validator'),
   utils = require('../libs/utils'),
   mail = require('./email'),
   config = require('../config').config,
-  fs = require('fs'),
-  Log = require('log');
-
-var stream = fs.createWriteStream('./logs/' + utils.formatDate('YYYYMMDD') + '.log');
-var log = new Log(config.log_level, stream);
+  log = require('../libs/log');
 
 exports.create = function(req, res) {
   var articleId = req.body.article_id,
