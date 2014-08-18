@@ -7,7 +7,7 @@ exports.showCreate = function(req, res) {
   res.render('project/edit');
 };
 
-exports.create = function(req, res) {
+exports.create = function(req, res, next) {
   var projectName = validator.trim(req.body.proj_name);
   var description = req.body.description;
   var detail = req.body.detail;
@@ -33,20 +33,20 @@ exports.create = function(req, res) {
     project.save(function(err, project) {
       if (err) {
         log.error('create project error with project: ' + project);
-        return;
+        next(err);
       }
       res.redirect('/project/' + project._id + '/edit');
     });
   }
 };
 
-exports.showEdit = function(req, res) {
+exports.showEdit = function(req, res, next) {
   var projectId = req.params.pid;
 
   Project.findById(projectId, function(err, project) {
     if (err) {
       log.error('find project with projectId: ' + projectId);
-      return;
+      next(err);
     }
     res.render('project/edit', {
       projectId: project._id,
@@ -57,7 +57,7 @@ exports.showEdit = function(req, res) {
   });
 };
 
-exports.update = function(req, res) {
+exports.update = function(req, res, next) {
   var projectId = req.params.pid;
   var projectName = validator.trim(req.body.proj_name);
   var description = req.body.description;
@@ -85,20 +85,20 @@ exports.update = function(req, res) {
     Project.findByIdAndUpdate(projectId, {$set: update}, function(err) {
       if (err) {
         log.error('update project with projectId: ' + projectId);
-        return;
+        next(err);
       }
       res.redirect('/project/' + projectId + '/edit');
     });
   }
 };
 
-exports.getProjectByID = function(req, res) {
+exports.getProjectByID = function(req, res, next) {
   var projectId = req.params.pid;
 
   Project.findById(projectId, function(err, project) {
     if (err) {
       log.error('get project by projectId: ' + projectId);
-      return;
+      next(err);
     }
     res.render('project/index', {
       project: project,

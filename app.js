@@ -11,7 +11,7 @@ var express = require('express'),
   config = require('./config').config,
   routes = require('./routes'),
   utils = require('./libs/utils');
-  Loader = require('loader');
+Loader = require('loader');
 var app = express();
 
 // all environments
@@ -31,19 +31,8 @@ app.use(express.cookieSession({
   }
 }));
 
-// development only
-app.configure('development', function(){
-  app.use(express.logger('dev'));
-  app.use(express.errorHandler());
-});
-
-//production
-app.configure('production', function(){
-
-});
-
 var assets = {};
-if(config.mini_assets){
+if (config.mini_assets) {
   assets = JSON.parse(fs.readFileSync(path.join(__dirname, 'assets.json')));
 }
 
@@ -51,12 +40,26 @@ app.locals({
   config: config,
   Loader: Loader,
   assets: assets,
-	markdown: utils.markdown 
+  markdown: utils.markdown
 });
 
 routes(app);
 
-http.createServer(app).listen(app.get('port'), function () {
+app.use(function(req, res, next) {
+  var err = new Error('页面不存在!');
+  err.status = 404;
+  next(err);
+});
+
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    status: err.status
+  });
+});
+
+http.createServer(app).listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
 });
 

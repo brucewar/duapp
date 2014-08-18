@@ -3,7 +3,7 @@ var models = require('../models'),
 var validator = require('validator'),
 	log = require('../libs/log');
 
-exports.add = function(req, res) {
+exports.add = function(req, res, next) {
 	var webmaster = validator.trim(req.body.webmaster);
 	var domain = validator.trim(req.body.domain);
 
@@ -37,11 +37,11 @@ exports.add = function(req, res) {
 	});
 };
 
-exports.getAll = function(req, res) {
+exports.getAll = function(req, res, next) {
 	Blogroll.find(function(err, blogrolls) {
 		if (err) {
 			log.error('get all blogrolls failed');
-			return;
+			next(err);
 		}
 		res.render('blogroll/list', {
 			blogrolls: blogrolls

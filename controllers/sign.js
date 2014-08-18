@@ -11,7 +11,7 @@ exports.showRegister = function(req, res) {
   res.render('sign/register');
 };
 
-exports.register = function(req, res) {
+exports.register = function(req, res, next) {
   var userName = validator.trim(req.body.user_name);
   var password = validator.trim(req.body.password);
   var repeatPassword = validator.trim(req.body.repeat_password);
@@ -35,7 +35,7 @@ exports.register = function(req, res) {
   User.findOne({user_name: userName}, function(err, user) {
     if (err) {
       log.error('get user error with user_name: ' + userName);
-      return;
+      next(err);
     }
     if (user) {
       res.render('sign/register', {
@@ -53,7 +53,7 @@ exports.register = function(req, res) {
     user.save(function(err) {
       if (err) {
         log.error('user register error: ' + err);
-        return;
+        next(err);
       }
       res.render('sign/register', {
         success: '注册成功!'
@@ -62,7 +62,7 @@ exports.register = function(req, res) {
   });
 };
 
-exports.login = function(req, res) {
+exports.login = function(req, res, next) {
   var userName = req.body.user_name;
   userName = validator.trim(userName);
   var password = req.body.password;
@@ -78,7 +78,7 @@ exports.login = function(req, res) {
   User.findOne({user_name: userName}, function(err, user) {
     if (err) {
       log.error('get user error with user_name: ' + userName);
-      return;
+      next(err);
     }
     if (!user) {
       res.render('sign/login', {
@@ -119,7 +119,7 @@ exports.showChangePassword = function(req, res) {
   res.render('sign/change_password');
 };
 
-exports.changePassword = function(req, res) {
+exports.changePassword = function(req, res, next) {
   var userName = req.session.userName;
   var oldPassword = req.body.old_password;
   oldPassword = validator.trim(oldPassword);
@@ -146,7 +146,7 @@ exports.changePassword = function(req, res) {
   User.findOne({user_name: userName}, function(err, user) {
     if (err) {
       log.error('get user with user_name: ' + userName);
-      return;
+      next(err);
     }
     if (oldPassword !== user.password) {
       res.render('sign/change_password', {
@@ -158,7 +158,7 @@ exports.changePassword = function(req, res) {
       user.save(function(err) {
         if (err) {
           log.error('change password error with newPassword: ' + newPassword);
-          return;
+          next(err);
         }
         res.render('sign/change_password', {
           success: '密码修改成功!'

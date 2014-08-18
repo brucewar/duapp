@@ -3,7 +3,7 @@ var Article = require('../models').Article;
 
 var log = require('../libs/log');
 
-exports.saveClassesChange = function (req, res) {
+exports.saveClassesChange = function (req, res, next) {
   var classes = req.body.classes;
 
   classes.forEach(function(cl){

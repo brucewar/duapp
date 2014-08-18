@@ -10,7 +10,7 @@ var utils = require('../libs/utils'),
   config = require('../config').config,
   log = require('../libs/log');
 
-exports.index = function(req, res) {
+exports.index = function(req, res, next) {
   var options = {
     limit: config.recent_limit,
     sort: [
@@ -30,7 +30,7 @@ exports.index = function(req, res) {
   proxy.fail(function(err) {
     if (err) {
       log.error('get data for home page error: ' + err);
-      return;
+      next(err);
     }
   });
 
@@ -77,7 +77,7 @@ exports.index = function(req, res) {
   });
 };
 
-exports.showArticleContent = function(req, res) {
+exports.showArticleContent = function(req, res, next) {
   var classId = req.query.class_id;
   var current_page = req.query.page || 1;
 
@@ -99,7 +99,7 @@ exports.showArticleContent = function(req, res) {
   proxy.fail(function(err) {
     if (err) {
       log.error('get data for article content view error: ' + err);
-      return;
+      next(err);
     }
   });
 
@@ -109,7 +109,7 @@ exports.showArticleContent = function(req, res) {
       Article.count(function(err, count) {
         if (err) {
           log.error('get the count of artilces error.');
-          return err;
+          next(err);
         }
         var pages = Math.ceil(count / limit);
         proxy.emit('pages', pages);
@@ -119,7 +119,7 @@ exports.showArticleContent = function(req, res) {
       Article.count({class_id: undefined}, function(err, count) {
         if (err) {
           log.error('get the count of unclassified articles error.');
-          return;
+          next(err);
         }
         var pages = Math.ceil(count / limit);
         proxy.emit('pages', pages);
@@ -129,7 +129,7 @@ exports.showArticleContent = function(req, res) {
       Article.count({class_id: classId}, function(err, count) {
         if (err) {
           log.error('get the count of articles with class_id' + classId);
-          return;
+          next(err);
         }
         var pages = Math.ceil(count / limit);
         proxy.emit('pages', pages);
@@ -144,7 +144,7 @@ exports.showArticleContent = function(req, res) {
   ArticleClass.find(function(err, classes) {
     if (err) {
       log.error('get classes error: ' + err);
-      return;
+      next(err);
     }
     var classProxy = new EventProxy();
     classProxy.after('count', classes.length, function(counts) {
@@ -172,7 +172,7 @@ exports.showArticleContent = function(req, res) {
       Article.find({}, null, options, function(err, articles) {
         if (err) {
           log.error('get all articles error: ' + err);
-          return;
+          next(err);
         }
         articles.forEach(function(article) {
           article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
@@ -184,7 +184,7 @@ exports.showArticleContent = function(req, res) {
       Article.find({class_id: undefined}, null, options, function(err, articles) {
         if (err) {
           log.error('get unclassified articles error: ' + err);
-          return;
+          next(err);
         }
         articles.forEach(function(article) {
           article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
@@ -196,7 +196,7 @@ exports.showArticleContent = function(req, res) {
       Article.find({class_id: classId}, null, options, function(err, articles) {
         if (err) {
           log.error('get articles with class_id: ' + classId);
-          return;
+          next(err);
         }
         articles.forEach(function(article) {
           article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
@@ -207,11 +207,11 @@ exports.showArticleContent = function(req, res) {
   }
 };
 
-exports.showProjectList = function(req, res) {
+exports.showProjectList = function(req, res, next) {
   Project.find(function(err, projects) {
     if (err) {
       log.error('get all projects error: ' + error);
-      return;
+      next(err);
     }
     projects.forEach(function(project) {
       project.start_time = utils.formatDate(project.time, 'yyyy-MM');

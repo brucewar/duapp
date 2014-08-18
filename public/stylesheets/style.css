@@ -214,3 +214,20 @@ ul.style-none a {
     display: inline-block;
     vertical-align: middle;
 }
+
+.error {
+    margin-top: 50px;
+}
+
+.error .error-code {
+    font-weight: normal;
+    font-size: 60px;
+    color: #00AEEF;
+    font-style: normal;
+}
+
+.error ul {
+    margin-top: 40px;
+    list-style-type: none;
+    padding: 0;
+}
