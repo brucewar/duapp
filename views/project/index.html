@@ -9,11 +9,11 @@
           </div>
         </div>
         <div class="inner no-padding">
-          <%= project.detail %>
+          <%- markdown(project.detail) %>
         </div>
         <div class="panel-footer">
           <button class="btn btn-success btn-sm" onclick="((function(s,d,e,r,l,p,t,z,c){var f='http://v.t.sina.com.cn/share/share.php?appkey=638674899',u=z||d.location,p=['&url=',e(u),'&title=',e(t||d.title),'&source=',e(r),'&sourceUrl=',e(l),'&content=',c||'gb2312','&pic=',e(p||'')].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else a();})(screen,document,encodeURIComponent,'','','','分享来自brucewar的项目：<%= project.name %>','',''));"
-            >分享到微博</button>
+            ><span class="glyphicon glyphicon-share"></span>分享到微博</button>
         </div>
       </div>
     </div>
