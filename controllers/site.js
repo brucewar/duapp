@@ -17,16 +17,17 @@ exports.index = function(req, res, next) {
       ['time', 'desc']
     ]
   };
-  var render = function(articles, comments, blogrolls) {
+  var render = function(articles, hotArticles, comments, blogrolls) {
     res.render('index', {
       userName: req.session.userName,
       articles: articles,
+      hotArticles: hotArticles,
       comments: comments,
       blogrolls: blogrolls
     });
   };
 
-  var proxy = EventProxy.create('articles', 'new_comments', 'blogrolls', render);
+  var proxy = EventProxy.create('articles', 'hot_articles', 'new_comments', 'blogrolls', render);
   proxy.fail(function(err) {
     if (err) {
       log.error('get data for home page error: ' + err);
@@ -59,6 +60,15 @@ exports.index = function(req, res, next) {
     for (var j = 0; j < len; j++) {
       Comment.count({article_id: articles[j]._id}, commentProxy.group('comment_count'));
     }
+  });
+
+  //获取热门文章
+  var hotOptions = {
+    sort: [['read_count', 'desc']],
+    limit: config.recent_limit
+  };
+  Article.find({}, 'title', hotOptions, function(err, hotArticles){
+    proxy.emit('hot_articles', hotArticles);
   });
 
   //获取最新评论

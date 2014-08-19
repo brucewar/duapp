@@ -7,7 +7,7 @@
           <% articles.forEach(function(article){ %>
             <div class="cell">
               <a class="title" href="/article/<%= article._id %>"><%= article.title %></a>
-              <hr>
+              <hr style="border: 1px dashed rgb(240, 240, 240);">
               <div class="content"><%- markdown(article.content) %></div>
               <div>
                 <div class="pull-left time">

@@ -1,12 +1,12 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
-			<div class="panel-heading">最新文章</div>
+			<div class="panel-heading">热门文章</div>
 			<div class="panel-body">
 				<ul class="style-none">
-					<% if(locals.articles) { %>
-						<% for(var i = 0, len = articles.length; i < len; i++) { %>
-						<li><span class="glyphicon glyphicon-bookmark"></span><a href="/article/<%= articles[i]._id %>"><%= articles[i].title %></a></li>
+					<% if(locals.hotArticles) { %>
+						<% for(var i = 0, len = hotArticles.length; i < len; i++) { %>
+						<li><span class="glyphicon glyphicon-bookmark"></span><a href="/article/<%= hotArticles[i]._id %>"><%= hotArticles[i].title %></a></li>
 						<% } %>
 					<% } %>
 				</ul>

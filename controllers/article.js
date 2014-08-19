@@ -192,7 +192,7 @@ exports.getArticleByID = function(req, res, next) {
         }
       });
     }
-    var render = function(className, commentCount, ret, articles, comments, blogrolls) {
+    var render = function(className, commentCount, ret, hotArticles, comments, blogrolls) {
       article.create_time = utils.formatDate(article.time, 'yyyy-MM-dd hh:mm');
       article.class_name = className;
       res.render('article/index', {
@@ -201,12 +201,12 @@ exports.getArticleByID = function(req, res, next) {
         article: article,
         commentCount: commentCount,
         ret: ret,
-        articles: articles,
+        hotArticles: hotArticles,
         comments: comments,
         blogrolls: blogrolls
       });
     };
-    var proxy = EventProxy.create('classname', 'comment_count', 'ret', 'new_articles', 'new_comments', 'blogrolls', render);
+    var proxy = EventProxy.create('classname', 'comment_count', 'ret', 'hot_articles', 'new_comments', 'blogrolls', render);
     proxy.fail(function(err) {
       if (err) {
         log.error('get info for article index view failed');
@@ -276,9 +276,13 @@ exports.getArticleByID = function(req, res, next) {
       proxy.emit('ret', ret);
     });
     
-    //获取最新文章
-    Article.find({}, null, options, function(err, articles){
-      proxy.emit('new_articles', articles);
+    //获取热门文章
+    var hotOptions = {
+      sort: [['read_count', 'desc']],
+      limit: config.recent_limit
+    };
+    Article.find({}, 'title', hotOptions, function(err, hotArticles){
+      proxy.emit('hot_articles', hotArticles);
     });
 
     //获取最新评论
