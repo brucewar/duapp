@@ -21,7 +21,7 @@ exports.sendReplyMail = function (who, comment) {
   var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
   var subject = config.name + ' 新消息';
-  var url = config.host + '/article/' + comment.article_id + '#' + comment._id;
+  var url = 'http://' + config.host + '/article/' + comment.article_id + '#' + comment._id;
   var html = '<p>您好：<p/> \
     <p> \
       <a href="' + comment.site + '">' + comment.name + '</a> \

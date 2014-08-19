@@ -6,7 +6,7 @@ var validator = require('validator'),
   config = require('../config').config,
   log = require('../libs/log');
 
-exports.create = function(req, res) {
+exports.create = function(req, res, next) {
   var articleId = req.body.article_id,
     commentId = req.body.comment_id,
     realName = validator.trim(req.body.real_name),
@@ -78,7 +78,7 @@ exports.create = function(req, res) {
       Comment.findById(comment.comment_id, function(err, parentComment) {
         if (err) {
           log.error('get parentComment failed with comment_id %s', comment.comment_id);
-          return err;
+          next(err);
         }
         mail.sendReplyMail(parentComment.email, comment);
       });

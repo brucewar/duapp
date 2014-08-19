@@ -121,7 +121,9 @@ exports.update = function(req, res, next) {
     if (0 != classId) {
       update.class_id = classId;
     }
-    Article.findByIdAndUpdate(article_id, {$set: update}, function(err) {
+    Article.findByIdAndUpdate(article_id, {
+      $set: update
+    }, function(err) {
       if (err) {
         log.error('update article failed with articleId: ' + articleId);
         next(err);
@@ -153,7 +155,11 @@ exports.changeArticleClass = function(req, res, next) {
   if (0 == class_id) {
     class_id = '';
   }
-  Article.findByIdAndUpdate(article_id, {$set: {class_id: class_id}}, function(err) {
+  Article.findByIdAndUpdate(article_id, {
+    $set: {
+      class_id: class_id
+    }
+  }, function(err) {
     if (err) {
       log.error('change article class failed with article_id: ' + article_id);
       res.json({
@@ -227,7 +233,13 @@ exports.getArticleByID = function(req, res, next) {
       proxy.emit('classname', '未分类');
     }
     //获取文章一级评论
-    Comment.find({article_id: article_id}, '', {sort: [['time', 'asc']]}, function(err, comments) {
+    Comment.find({
+      article_id: article_id
+    }, '', {
+      sort: [
+        ['time', 'asc']
+      ]
+    }, function(err, comments) {
       if (err) {
         log.error('get comment failed with articleId ' + article_id);
         next(err);
@@ -275,13 +287,15 @@ exports.getArticleByID = function(req, res, next) {
       });
       proxy.emit('ret', ret);
     });
-    
+
     //获取热门文章
     var hotOptions = {
-      sort: [['read_count', 'desc']],
+      sort: [
+        ['read_count', 'desc']
+      ],
       limit: config.recent_limit
     };
-    Article.find({}, 'title', hotOptions, function(err, hotArticles){
+    Article.find({}, 'title', hotOptions, function(err, hotArticles) {
       proxy.emit('hot_articles', hotArticles);
     });
 

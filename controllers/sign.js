@@ -32,7 +32,9 @@ exports.register = function(req, res, next) {
     return;
   }
 
-  User.findOne({user_name: userName}, function(err, user) {
+  User.findOne({
+    user_name: userName
+  }, function(err, user) {
     if (err) {
       log.error('get user error with user_name: ' + userName);
       next(err);
@@ -75,7 +77,9 @@ exports.login = function(req, res, next) {
     return;
   }
 
-  User.findOne({user_name: userName}, function(err, user) {
+  User.findOne({
+    user_name: userName
+  }, function(err, user) {
     if (err) {
       log.error('get user error with user_name: ' + userName);
       next(err);
@@ -143,7 +147,9 @@ exports.changePassword = function(req, res, next) {
   }
 
   oldPassword = utils.md5(oldPassword);
-  User.findOne({user_name: userName}, function(err, user) {
+  User.findOne({
+    user_name: userName
+  }, function(err, user) {
     if (err) {
       log.error('get user with user_name: ' + userName);
       next(err);
