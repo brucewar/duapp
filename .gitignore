@@ -2,8 +2,6 @@
 db/
 log/
 node_modules/
-start_mypage_mongo.bat
-start_mypage_mongo.sh
 assets.json
 *.min.*.css
 *.min.*.js

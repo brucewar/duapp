@@ -100,3 +100,8 @@
     </form>
   </div>
 </div>
+<!-- markdown editor -->
+<%- Loader('/public/javascripts/article_editor.min.js')
+  .js('/public/javascripts/markdown_editor.js')
+  .done(assets, '', config.mini_assets)
+%>
