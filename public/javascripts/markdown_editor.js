@@ -19,7 +19,7 @@ $('#btn_modify').click(function() {
   $('#btn_preview').removeClass('sr-only');
 });
 
-$('#editor,#comment').keydown(function(event) {
+$('#editor').keydown(function(event) {
   //阻止textarea中tab键切换焦点
   if (event.keyCode == 9) {
     event.preventDefault();
