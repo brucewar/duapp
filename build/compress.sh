@@ -1,11 +1,21 @@
 #!/bin/sh
-rm ../assets.json
+cd ..
+webroot=$(pwd)
+echo "$webroot"
 
-cd ../public/javascripts/
-rm *.min.*.js
+if [ -f "./assets.json" ]; then
+	rm ./assets.json
+fi
+
+cd /public/javascripts/
+if [ -f "*.min.*.js" ]; then
+	rm *.min.*.js
+fi
 
 cd ../stylesheets/
-rm *.min.*.css
+if [ -f "*.min.*.css" ]; then
+	rm *.min.*.css
+fi
 
-cd ~/duapp/
+cd $webroot
 ./node_modules/.bin/loader views .
