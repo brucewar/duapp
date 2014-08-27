@@ -1,13 +1,13 @@
 #!/bin/sh
 cd ..
 webroot=$(pwd)
-echo "$webroot"
+echo "webroot: $webroot"
 
 if [ -f "./assets.json" ]; then
 	rm ./assets.json
 fi
 
-cd /public/javascripts/
+cd ./public/javascripts/
 if [ -f "*.min.*.js" ]; then
 	rm *.min.*.js
 fi
