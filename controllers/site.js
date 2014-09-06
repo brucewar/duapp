@@ -23,7 +23,8 @@ exports.index = function(req, res, next) {
       articles: articles,
       hotArticles: hotArticles,
       comments: comments,
-      blogrolls: blogrolls
+      blogrolls: blogrolls,
+      home: true
     });
   };
 
