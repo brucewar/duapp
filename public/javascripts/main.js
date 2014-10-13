@@ -19,8 +19,8 @@ marked.setOptions({
 $(document).ready(function() {
   prettyPrint();
 
-  if(location.pathname !== '/'){
-    $('#navbar').removeClass('hidden');
+  if(location.pathname == '/'){
+    $('#navbar').addClass('hidden');
   }
 
   var interval = setInterval(arrowDownAnimation, 1000);

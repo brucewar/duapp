@@ -6,7 +6,7 @@
 				<ul class="style-none">
 					<% if(locals.hotArticles) { %>
 						<% for(var i = 0, len = hotArticles.length; i < len; i++) { %>
-						<li><span class="glyphicon glyphicon-bookmark"></span><a href="/article/<%= hotArticles[i]._id %>"><%= hotArticles[i].title %></a></li>
+						<li><a href="/article/<%= hotArticles[i]._id %>"><span class="glyphicon glyphicon-bookmark"></span><%= hotArticles[i].title %></a></li>
 						<% } %>
 					<% } %>
 				</ul>
@@ -23,7 +23,7 @@
 					<% if(locals.comments) { %>
 						<% for(var i = 0, len = comments.length; i < len; i++) { %>
 						<li>
-							<div><span class="glyphicon glyphicon-comment"></span><a href="<%= comments[i].site %>" target="_blank" rel="nofollow"><%= comments[i].name %></a><span class="time pull-right"><%= comments[i].create_time %></span></div>
+							<div><a href="<%= comments[i].site %>" target="_blank" rel="nofollow"><span class="glyphicon glyphicon-comment"></span><%= comments[i].name %></a><span class="time pull-right"><%= comments[i].create_time %></span></div>
 							<p><a href="/article/<%= comments[i].article_id %>#<%= comments[i]._id %>"><%= comments[i].comment %></a></p>
 						</li>
 						<% } %>
@@ -45,7 +45,7 @@
 				<ul class="style-none">
 					<% if(locals.blogrolls) { %>
 						<% for(var i = 0, len = blogrolls.length; i < len; i++) { %>
-						<li><span class="glyphicon glyphicon-link"></span><a href="<%= blogrolls[i].domain %>" target="_blank"><%= blogrolls[i].webmaster %></a></li>
+						<li><a href="<%= blogrolls[i].domain %>" target="_blank"><span class="glyphicon glyphicon-link"></span><%= blogrolls[i].webmaster %></a></li>
 						<% } %>
 					<% } %>
 				</ul>

@@ -1,6 +1,5 @@
 body {
     font-family: "Lucida Grande", "Microsoft JhengHei", "Microsoft YaHei";
-    /*background-color: #e5e5e5;*/
 }
 
 .navbar-brucewar {
@@ -239,8 +238,15 @@ a:hover {
     border-top: 1px solid rgb(240, 240, 240);
 }
 
+.media .media-object {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
 pre {
-    background-color: rgba(71, 73, 73, 0.5);
+    background-color: rgba(71, 73, 73, 0.1);
 }
 
 .comment:hover {
@@ -272,12 +278,17 @@ ul.style-none {
     padding-left: 0;
 }
 
+ul.style-none span.glyphicon {
+    margin-right: 5px;
+}
+
 ul.style-none li {
     font-size: 12px;
     margin-bottom: 5px;
 }
 
 ul.style-none a {
+    color: #000;
     max-width: 85%;
     margin-left: 10px;
     text-overflow: ellipsis;
@@ -285,6 +296,14 @@ ul.style-none a {
     overflow: hidden;
     display: inline-block;
     vertical-align: middle;
+}
+
+ul.style-none li a:hover {
+    color: #f60;
+}
+
+ul.style-none p a:hover {
+    color: #428bca;
 }
 
 .error {
