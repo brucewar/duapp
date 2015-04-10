@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" href="./stylesheet/index.css">
+  <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+  <title>新郎卫忠明&新娘王娟</title>
+</head>
+<body>
+	<div id="loading">
+		<div id="heart"><img src="./image/loading.gif"></div>
+	</div>
+	<div id="left_arrow"></div>
+	<div id="music_btn" class="play-music">
+		<div class="rotate"></div>
+		<audio id="bg_music" autoplay="autoplay" loop="true" preload>
+			<source src="http://jyxs.qiniudn.com/26.mp3" type="audio/mpeg">
+		</audio>
+	</div>
+	<article class="box" style="z-index:5;">
+		<section class="page first">
+			<div class="header">
+				<span class="border"><span class="avatar"></span></span>
+			</div>
+			<div class="name">卫忠明<span class="love"></span>王娟</div>
+			<div class="time"><span></span>公历：2015-05-02 18:18</div>
+			<div class="location"><span>泰州碧桂园凤凰温泉酒店</span></div>
+		</section>
+	</article>
+	<article class="box" style="z-index:4;">
+		<section class="page second">
+			<div class="title">婚纱相册</div>
+			<ul id="gallery" class="container">
+				<li>
+					<a href="javascript:void(0);">
+						<div class="thumb" style="min-height: 80px; background-image: url('./image/1.jpg');"></div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="thumb" style="min-height: 80px; background-image: url('./image/2.jpg');"></div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="thumb" style="min-height: 80px; background-image: url('./image/3.jpg');"></div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="thumb" style="min-height: 80px; background-image: url('./image/3.jpg');"></div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="thumb" style="min-height: 80px; background-image: url('./image/2.jpg');"></div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0);">
+						<div class="thumb" style="min-height: 80px; background-image: url('./image/1.jpg');"></div>
+					</a>
+				</li>
+			</ul>
+		</section>
+	</article>
+	<article class="box third" style="z-index:3;">
+		<section class="page">
+			<div class="title">婚宴回函</div>
+			<div class="warn">为了方便统计婚宴资料，请您花几分钟填写以下内容，并请及时回复，我们的婚宴会因您的协助更加美好。</div>
+			<form>
+				<div class="textbox">
+					<input id="name" type="text" name="name" placeholder="姓名" class="inputbox">
+				</div>
+				<div class="textbox">
+					<input id="phone" type="text" name="phone" placeholder="电话" class="inputbox">
+				</div>
+				<div class="textbox">
+					<select name="num" id="num" class="inputbox">
+						<option value="0">抱歉，无法参加</option>
+						<option value="1" selected="selected">1 人参加</option>
+						<option value="2">2 人参加</option>
+						<option value="3">3 人参加</option>
+						<option value="4">4 人参加</option>
+						<option value="5">5 人参加</option>
+					</select>
+				</div>
+				<div class="textbox">
+					<textarea name="content" rows="3" required class="inputbox" placeholder="请输入您的祝福信息"></textarea>
+				</div>
+				<div style="width: 100%; text-align: center;">
+					<input type="button" value="发送">
+				</div>
+			</form>
+		</section>
+	</article>
+	<article class="box fourth" style="z-index:2;">
+		<section class="page">
+			<div class="title">婚宴地址</div>
+			<div id="b_map" class="baidu_map"></div>
+			<p style="color: #fff; font-size: 90%; width:90%; margin: auto;">泰州碧桂园凤凰温泉酒店<br>地址：江苏省泰州市海陵区泰州北泰渔路888号<br>电话：(0523)86518888</p>
+		</section>
+	</article>
+	<div id="bg_layer"></div>
+	<script src="http://api.map.baidu.com/api?type=quick&ak=1E133D5Fa7ae81cd7f866c5376f41c7f&v=1.0"></script>
+	<script src="./javascript/index.js"></script>
+</body>
+</html>
