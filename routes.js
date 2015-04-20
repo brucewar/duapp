@@ -9,6 +9,7 @@ var project = require('./controllers/project');
 var comment = require('./controllers/comment');
 var search = require('./controllers/search');
 var blogroll = require('./controllers/blogroll');
+var weixin = require('./controllers/weixin');
 
 module.exports = function(app) {
 
@@ -58,4 +59,6 @@ module.exports = function(app) {
   app.post('/blogroll/add', blogroll.add);
   app.post('/blogroll/update', blogroll.updateById);
   app.get('/blogroll/delete', blogroll.deleteById);
+
+  app.get('/wx', weixin.doGet);
 };
