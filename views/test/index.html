@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>微信群发测试</title>
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body>
+	<button id="btn">群发</button>
+	<script type="text/javascript">
+		$("#btn").click(function(){
+			alert("test");
+			$.ajax({
+				url: "/wx",
+				type: "POST",
+				dataType: "json",
+				timeout: 20000,
+				success: function(data){
+					console.log(data);
+				}
+			});
+		});
+	</script>
+</body>
+</html>

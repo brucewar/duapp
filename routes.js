@@ -60,5 +60,7 @@ module.exports = function(app) {
   app.post('/blogroll/update', blogroll.updateById);
   app.get('/blogroll/delete', blogroll.deleteById);
 
+  app.get('/test', weixin.test);
   app.get('/wx', weixin.doGet);
+  app.post('/wx', weixin.doPost);
 };
