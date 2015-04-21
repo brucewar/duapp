@@ -44,7 +44,18 @@ app.locals({
 });
 
 routes(app);
-
+var config = {
+	token: 'brucewar',
+	appid: 'wxabd6d9d1509c5f97'
+};
+var wechat = require('wechat');
+app.use('/wx', wechat(config, function(req, res, next){
+	console.log(req.weixin);
+	res.reply({
+		content: '这是一条自动回复的消息',
+		type: 'text'
+	});
+}));
 app.use(function(req, res, next) {
   var err = new Error('页面不存在!');
   err.status = 404;

@@ -9,17 +9,32 @@
 	<button id="btn">群发</button>
 	<script type="text/javascript">
 		$("#btn").click(function(){
-			alert("test");
+			var openids = [];
+			$('ul input').each(function(index, $input){
+				if($input.checked){
+					openids.push($input.value);
+				}
+			});
 			$.ajax({
-				url: "/wx",
+				url: "/sendAll",
 				type: "POST",
 				dataType: "json",
+				data: {openids: openids},
 				timeout: 20000,
 				success: function(data){
-					console.log(data);
+					if(data.errcode == 0){
+						alert('群发成功!');
+					}else{
+						alert('群发失败!');
+					}
 				}
 			});
 		});
 	</script>
+	<ul>
+		<% for(var i=0,len=locals.users.length; i<len; i++){ %>
+		<li><input type="checkbox" value="<%= users[i].openid %>"><%= users[i].nickname %></li>
+		<% } %>
+	</ul>
 </body>
 </html>

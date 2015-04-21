@@ -62,5 +62,5 @@ module.exports = function(app) {
 
   app.get('/test', weixin.test);
   app.get('/wx', weixin.doGet);
-  app.post('/wx', weixin.doPost);
+	app.post('/sendAll', weixin.sendAll);
 };
