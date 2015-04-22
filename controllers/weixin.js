@@ -1,8 +1,5 @@
 var EventProxy = require('eventproxy');
 var crypto = require('crypto');
-var API = require('wechat-api');
-var api = new API('wxabd6d9d1509c5f97', '3343c19f34fbfeb9358d4627ca097523');
-var wechat = require('wechat');
 var urllib = require('urllib');
 
 var api_config = {
@@ -32,13 +29,12 @@ AccessToken.prototype.isValid = function () {
 };
 
 exports.test = function(req, res){
-	if(checkSignature(req)){
-		exports.getAccessToken(function(err, token){
+		getAccessToken(function(err, token){
 			if(err){
 				res.end(err);
 			}
 			var url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + token.accessToken;
-			urllib.request(url, {dataType: 'json'}, function(err, data, res){
+			urllib.request(url, {dataType: 'json'}, function(err, data){
 				if(err){
 					throw err;
 				}
@@ -48,12 +44,11 @@ exports.test = function(req, res){
 					res.render('test/index', {layout: false, users: users});
 				});
 				for(var i=0, len=openids.length; i<len; i++){
-					var getUserUrl = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" + token.accessToken + "&openid= " + openids[i] + "&lang=zh_CN";
-					urllib.request(getUserUrl, {dataType: 'json', proxy.group('get_user_info')});
+					var getUserUrl = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" + token.accessToken + "&openid=" + openids[i] + "&lang=zh_CN";
+					urllib.request(getUserUrl, {dataType: 'json'}, proxy.group('get_user_info'));
 				}
 			});
 		});
-	}
 };
 
 exports.doGet = function(req, res){
@@ -70,7 +65,6 @@ function checkSignature(req){
 		nonce = req.query.nonce,
 		shasum = crypto.createHash('sha1'),
 		arr = ['brucewar', timestamp, nonce];
-
 	shasum.update(arr.sort().join(''), 'utf-8');
 	return shasum.digest('hex') == signature;
 }
@@ -89,26 +83,39 @@ function getAccessToken(callback){
 }
 
 exports.doPost = function(req, res){
-	var config = {
-		token: 'brucewar',
-		appid: 'wxabd6d9d1509c5f97'
-	};
-	wechat(config, function(req, res){
-		var message = req.weixin;
-		console.log(message);
-		res.reply({
-			content: "这是一条自动回复的消息!",
-			type: 'text'
-		});
-	});
+	console.log(req.body.xml);
+	var message = req.body.xml;
+	var xml = "<xml>" + 
+		"<ToUserName><![CDATA["+ message.FromUserName +"]]></ToUserName>" + 
+		"<FromUserName><![CDATA[" + message.ToUserName + "]]></FromUserName>" +
+		"<CreateTime>" + (new Date()).getTime() + "</CreateTime>" +
+		"<MsgType><![CDATA[text]]></MsgType>" +
+		"<Content><![CDATA[这是一条自动回复的消息]]></Content>" + 
+		"</xml>";
+	res.end(xml);
 };
 
 exports.sendAll = function(req, res){
 	var openids = req.body.openids;
-	api.massSendText('This is a message to all.', openids, function(err, result){
+	getAccessToken(function(err, token){
 		if(err){
 			res.json(err);
+			return;
 		}
-		res.json(result);
+		var url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=" + token.accessToken;
+		var opts = {
+			touser: openids,
+			msgtype: "text",
+			text: {
+				content: "这是一条群发的消息"
+			}
+		};
+		urllib.request(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, data: opts, dataType: 'json'}, function(err, data){
+			if(err){
+				res.json(err);
+				return;
+			}
+			res.json(data);
+		});
 	});
 };
